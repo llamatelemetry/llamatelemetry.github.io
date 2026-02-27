@@ -1,0 +1,101 @@
+[project]
+site_name = "llamatelemetry Documentation"
+site_description = "Extensive documentation for llamatelemetry v0.1.0: inference, observability, Kaggle, GGUF, APIs, and notebooks."
+site_author = "llamatelemetry"
+site_url = "https://llamatelemetry.github.io/"
+repo_url = "https://github.com/llamatelemetry/llamatelemetry.github.io"
+repo_name = "llamatelemetry/llamatelemetry.github.io"
+edit_uri = "edit/main/docs/"
+copyright = """
+Copyright &copy; 2026 llamatelemetry
+"""
+
+nav = [
+  { "Home" = "index.md" },
+  { "Get Started" = [
+    { "Overview" = "get-started/index.md" },
+    { "Installation" = "get-started/installation.md" },
+    { "Quickstart" = "get-started/quickstart.md" },
+    { "Kaggle Quickstart" = "get-started/kaggle-quickstart.md" },
+  ]},
+  { "Guides" = [
+    { "Inference Engine" = "guides/inference-engine.md" },
+    { "Server Management" = "guides/server-management.md" },
+    { "Model Management" = "guides/model-management.md" },
+    { "API Client" = "guides/api-client.md" },
+    { "Telemetry and Observability" = "guides/telemetry-observability.md" },
+    { "Kaggle Environment" = "guides/kaggle-environment.md" },
+    { "Examples Cookbook" = "guides/examples-cookbook.md" },
+    { "Graphistry and RAPIDS" = "guides/graphistry-rapids.md" },
+    { "Quantization" = "guides/quantization.md" },
+    { "Unsloth Integration" = "guides/unsloth.md" },
+    { "CUDA Optimizations" = "guides/cuda-optimizations.md" },
+    { "Jupyter Workflows" = "guides/jupyter-workflows.md" },
+    { "Louie Knowledge Graphs" = "guides/louie-knowledge-graphs.md" },
+    { "Troubleshooting" = "guides/troubleshooting.md" },
+  ]},
+  { "API Reference" = [
+    { "Reference Index" = "reference/index.md" },
+    { "Core API" = "reference/core-api.md" },
+    { "Server and Models" = "reference/server-models.md" },
+    { "Client API" = "reference/client-api.md" },
+    { "GGUF API" = "reference/gguf-api.md" },
+    { "Multi-GPU and NCCL" = "reference/multigpu-nccl.md" },
+    { "Telemetry API" = "reference/telemetry-api.md" },
+    { "Kaggle API" = "reference/kaggle-api.md" },
+    { "Graphistry API" = "reference/graphistry-api.md" },
+    { "Quantization and Unsloth API" = "reference/quantization-unsloth.md" },
+    { "CUDA and Inference API" = "reference/cuda-inference-api.md" },
+    { "Jupyter, Chat, and Embeddings API" = "reference/jupyter-chat-embeddings.md" },
+    { "Louie API" = "reference/louie-api.md" },
+  ]},
+  { "Notebooks" = [
+    { "Notebook Hub" = "notebooks/index.md" },
+    { "Foundation Track" = "notebooks/foundation.md" },
+    { "Integration Track" = "notebooks/integration.md" },
+    { "Advanced Track" = "notebooks/advanced.md" },
+    { "Observability Track" = "notebooks/observability.md" },
+  ]},
+  { "Project" = [
+    { "Architecture" = "project/architecture.md" },
+    { "FAQ" = "project/faq.md" },
+    { "README Map" = "project/readme-map.md" },
+    { "Changelog" = "project/changelog.md" },
+    { "Contributing" = "project/contributing.md" },
+  ]},
+]
+
+[project.theme]
+language = "en"
+features = [
+    "announce.dismiss",
+    "content.action.edit",
+    "content.action.view",
+    "content.code.annotate",
+    "content.code.copy",
+    "content.code.select",
+    "content.footnote.tooltips",
+    "content.tabs.link",
+    "content.tooltips",
+    "navigation.footer",
+    "navigation.indexes",
+    "navigation.instant",
+    "navigation.instant.prefetch",
+    "navigation.path",
+    "navigation.sections",
+    "navigation.top",
+    "navigation.tracking",
+    "search.highlight",
+]
+
+[[project.theme.palette]]
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode for llamatelemetry docs"
+
+[[project.theme.palette]]
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode for llamatelemetry docs"
+
+
