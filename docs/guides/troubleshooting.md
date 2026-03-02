@@ -1,79 +1,73 @@
 # Troubleshooting
 
-## Server fails to start
+## CUDA not detected
 
-Checklist:
+Symptoms:
 
-1. Confirm model path exists.
-2. Confirm `LLAMA_SERVER_PATH` is valid if set.
-3. Run with `silent=False` to capture stderr.
-4. Check port conflicts (`8090` by default in high-level engine).
+- `detect_cuda()` returns `available: False`
+- `llama-server` fails to start
 
-## Model load cancelled unexpectedly
+Fixes:
 
-`load_model_smart(..., interactive=True)` can return `None` if user declines download prompt.
+- Ensure NVIDIA drivers are installed
+- Run `nvidia-smi` and confirm GPUs are visible
+- Verify you are not in a CPU-only runtime
 
-Use:
+## `llama-server` not found
 
-- `interactive_download=False`, or
-- provide local path, or
-- pre-download model.
+Symptoms:
 
-## Telemetry not active
+- `ServerManager.find_llama_server()` returns `None`
+- `InferenceEngine.load_model` raises a runtime error
 
-Ensure OpenTelemetry packages are installed:
+Fixes:
 
-- `opentelemetry-api`
-- `opentelemetry-sdk`
-- optional OTLP exporters
+- Set `LLAMA_SERVER_PATH` to the binary location
+- Set `LLAMA_CPP_DIR` if you built llama.cpp manually
+- Reinstall the package to trigger bootstrap download
 
-Then validate:
+## Missing shared libraries
 
-```python
-from llamatelemetry.telemetry import is_otel_available
-print(is_otel_available())
-```
+Symptoms:
 
-## Windows encoding errors
+- `llama-server` fails with `libnccl.so` or other missing libs
 
-On some Windows consoles, non-ASCII output can trigger encoding errors.
+Fixes:
 
-Workarounds:
+- Ensure `LD_LIBRARY_PATH` includes the `llamatelemetry/lib` directory
+- Re-import `llamatelemetry` to re-run bootstrap
 
-- Use UTF-8 enabled terminal/session.
-- Prefer notebook/Linux runtime for full Kaggle-focused workflows.
-- Suppress noisy output (`silent=True`) where possible.
+## Model download issues
 
-## Triton kernels not available
+Symptoms:
 
-`llamatelemetry.cuda.triton_kernels` depends on optional Triton runtime. If absent:
+- Registry download fails or hangs
 
-- `list_kernels()` can be empty.
-- Use fallback paths or skip Triton-specific features.
+Fixes:
 
-## GPU capability issues
+- Verify internet access in the runtime
+- Provide a local GGUF path instead
+- Use HuggingFace token if the model is gated
 
-`ServerManager.start_server` performs compatibility checks when `gpu_layers > 0`.
+## OpenTelemetry not available
 
-If your GPU is unsupported:
+Symptoms:
 
-- set `gpu_layers=0` for CPU mode, or
-- use compatible GPU hardware, or
-- override with `skip_gpu_check=True` (not recommended).
+- `setup_telemetry()` returns `(None, None)`
 
-## Kaggle secret loading problems
+Fixes:
 
-Use:
+- Install OTel SDK/exporters:
+  - `pip install opentelemetry-api opentelemetry-sdk`
+  - `pip install opentelemetry-exporter-otlp-proto-grpc`
 
-```python
-from llamatelemetry.kaggle import auto_load_secrets
-print(auto_load_secrets(set_env=True))
-```
+## Kaggle-specific issues
 
-Ensure secret keys in Kaggle match expected names (`HF_TOKEN`, Graphistry keys).
+- Ensure the notebook accelerator is set to GPU (T4 x2)
+- Avoid `pip install` in every cell; use a single install cell
 
-## Where to go next
+## Still stuck?
 
-- [Server guide](server-management.md)
-- [Model guide](model-management.md)
-- [API reference](../reference/index.md)
+- Check [API Reference](../reference/index.md)
+- Review [Notebook Hub](../notebooks/index.md)
+- Inspect `tests/` for runnable verification patterns

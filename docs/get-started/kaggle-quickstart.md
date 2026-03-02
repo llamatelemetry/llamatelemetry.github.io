@@ -1,53 +1,64 @@
-# Kaggle Quickstart
+# Kaggle Quickstart (Dual T4)
 
-`llamatelemetry` is optimized for Kaggle dual Tesla T4 workflows.
+This workflow targets Kaggle notebooks with **GPU T4 x2**. `llamatelemetry` is optimized for this environment and can automatically configure split-GPU workloads.
 
-## Install in notebook
+## 1) Enable GPUs in Kaggle
+
+- Notebook Settings → Accelerator → GPU (T4 x2)
+
+## 2) Install
 
 ```python
-!pip install -q --no-cache-dir --force-reinstall \
-  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
 ```
 
-## One-liner environment setup
+## 3) Validate the environment
 
 ```python
-from llamatelemetry.kaggle import KaggleEnvironment
-
-env = KaggleEnvironment.setup(
-    enable_telemetry=True,
-    enable_graphistry=False,
-    auto_load_secrets=True,
-)
+from llamatelemetry import detect_cuda
+print(detect_cuda())
 ```
 
-## Create engine and infer
+## 4) Use Kaggle presets
 
 ```python
-engine = env.create_engine("gemma-3-4b-Q4_K_M")
-result = engine.infer("Summarize dual-T4 tensor split strategy in 4 points.")
+from llamatelemetry.api import kaggle_t4_dual_config
+
+cfg = kaggle_t4_dual_config()
+print(cfg)
+```
+
+## 5) Load a GGUF model
+
+```python
+import llamatelemetry as lt
+
+engine = lt.InferenceEngine(enable_telemetry=False)
+engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
+```
+
+## 6) Run inference
+
+```python
+result = engine.infer("Summarize the benefits of CUDA graphs.", max_tokens=96)
 print(result.text)
 ```
 
-## Manual model download (optional)
+## 7) Optional: telemetry and metrics
 
 ```python
-model_path = env.download_model(
-    repo_id="unsloth/gemma-3-1b-it-GGUF",
-    filename="gemma-3-1b-it-Q4_K_M.gguf",
+engine = lt.InferenceEngine(
+    enable_telemetry=True,
+    telemetry_config={
+        "service_name": "llamatelemetry-kaggle",
+        "enable_llama_metrics": True,
+    },
 )
 ```
 
-## GPU context isolation
+## 8) Recommended notebooks
 
-```python
-with env.rapids_context():
-    import cudf
-    df = cudf.DataFrame({"x": [1, 2, 3]})
-```
-
-## Next
-
-- [Kaggle Environment guide](../guides/kaggle-environment.md)
-- [Graphistry and RAPIDS](../guides/graphistry-rapids.md)
-- [Observability notebook track](../notebooks/observability.md)
+- [01 Quickstart](../notebooks/01-quickstart-llamatelemetry-v0-1-0-e1.md)
+- [03 Multi-GPU Inference](../notebooks/03-multi-gpu-inference-llamatelemetry-v0-1-0-e1.md)
+- [06 Split-GPU Graphistry](../notebooks/06-split-gpu-graphistry-llamatelemetry-v0-1-0-e1.md)
+- [09 Large Models Kaggle](../notebooks/09-large-models-kaggle-llamatelemetry-e3.md)

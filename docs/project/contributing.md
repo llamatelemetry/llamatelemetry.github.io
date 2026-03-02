@@ -1,42 +1,31 @@
 # Contributing
 
-This documentation site tracks `llamatelemetry` SDK development and should stay aligned with package behavior.
+Thanks for contributing to `llamatelemetry`.
 
-## Contributing to SDK
-
-Primary repository:
-
-- <https://github.com/llamatelemetry/llamatelemetry>
-
-Start with:
-
-- `CONTRIBUTING.md` in the SDK repository
-- issue tracker for bugs/feature requests
-
-## Contributing to docs site (`llamatelemetry.github.io`)
-
-## Local preview
+## Development setup
 
 ```bash
-zensical serve -f zensical.toml
+git clone https://github.com/llamatelemetry/llamatelemetry.git
+cd llamatelemetry
+pip install -e .[dev]
 ```
 
-## Build
+## Tests
 
 ```bash
-zensical build -f zensical.toml --clean
+pytest -q
 ```
 
-## Documentation standards used here
+## Code structure
 
-- Keep examples executable and version-scoped (`v0.1.0` where needed).
-- Prefer API-accurate signatures over speculative parameters.
-- Call out optional dependency constraints clearly.
+- Python package: `llamatelemetry/`
+- CUDA/C++ sources: `csrc/`
+- Docs: `docs/`
+- Notebooks: `notebooks/`
 
-## GitHub Pages deployment
+## Guidelines
 
-Deployment workflow is defined at:
-
-- `.github/workflows/docs.yml`
-
-It builds via `zensical build` and publishes the `site/` artifact to GitHub Pages.
+- Keep optional dependencies optional
+- Prefer clear docstrings and examples
+- Add tests for new APIs when possible
+- Avoid committing large binaries or model files

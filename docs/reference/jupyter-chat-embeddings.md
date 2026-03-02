@@ -1,41 +1,36 @@
-# Jupyter, Chat, and Embeddings API Reference
+# Jupyter, Chat, and Embeddings API
 
-## Module: `llamatelemetry.jupyter`
+## Jupyter helpers
+
+`llamatelemetry.jupyter`:
 
 - `is_jupyter_available()`
-- `check_dependencies(require_widgets=False)`
-- `stream_generate(...)`
-- `progress_generate(...)`
-- `display_metrics(...)`
+- `check_dependencies()`
+- `stream_generate()`
+- `progress_generate()`
+- `display_metrics()`
+- `compare_temperatures()`
+- `visualize_tokens()`
 - `ChatWidget`
-- `compare_temperatures(...)`
-- `visualize_tokens(...)`
 
----
+## Chat
 
-## Module: `llamatelemetry.chat`
+`llamatelemetry.chat`:
 
-- `Message`
-- `ChatEngine`
-- `ConversationManager`
+- `Message` — message model
+- `ChatEngine` — conversation state manager
+- `ConversationManager` — manage multiple sessions
 
----
+## Embeddings
 
-## Module: `llamatelemetry.embeddings`
+`llamatelemetry.embeddings`:
 
 - `EmbeddingEngine`
 - `SemanticSearch`
 - `TextClustering`
-- `cosine_similarity(...)`
-- `euclidean_distance(...)`
-- `dot_product_similarity(...)`
+- similarity helpers: `cosine_similarity`, `euclidean_distance`, `dot_product_similarity`
 
-## Example
+## Related docs
 
-```python
-from llamatelemetry.embeddings import EmbeddingEngine, cosine_similarity
-
-engine = EmbeddingEngine(server_url="http://127.0.0.1:8080")
-vecs = engine.embed(["llama.cpp", "OpenTelemetry"])
-print(cosine_similarity(vecs[0], vecs[1]))
-```
+- [Jupyter Workflows](../guides/jupyter-workflows.md)
+- [Inference Engine](../guides/inference-engine.md)

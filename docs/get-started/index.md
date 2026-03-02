@@ -1,35 +1,43 @@
-# Get Started
+# Get Started Overview
 
-This section gets you from zero to working inference quickly, then points to deeper guides.
+This section gives you the fastest path to a working `llamatelemetry` setup, plus a mental model of how the SDK fits together.
 
-## Paths
+## How the SDK is structured
 
-- Local machine quick setup:
-  1. [Installation](installation.md)
-  2. [Quickstart](quickstart.md)
-- Kaggle setup (dual T4 focused):
-  1. [Kaggle Quickstart](kaggle-quickstart.md)
-  2. [Kaggle Environment guide](../guides/kaggle-environment.md)
+`llamatelemetry` is a Python orchestration layer around `llama-server` (from `llama.cpp`). The package handles:
 
-## Runtime model
+- Runtime bootstrap of CUDA binaries and shared libraries
+- Model discovery (registry, HuggingFace downloads, or local paths)
+- Server lifecycle management (`ServerManager`)
+- Inference requests and response handling (`InferenceEngine`)
+- Optional observability (OpenTelemetry traces and metrics)
 
-At a high level:
+## The shortest path to success
 
-1. Install `llamatelemetry`.
-2. Create `InferenceEngine`.
-3. Load a model (local path, registry name, or `repo:file` syntax).
-4. Inference calls go to `llama-server` over HTTP.
-5. Optional telemetry records traces and metrics.
+1. Install the SDK
+2. Verify CUDA and GPU visibility
+3. Load a small GGUF model
+4. Run inference
+5. (Optional) enable telemetry and metrics
 
-## First success checklist
+## Choose your path
 
-- `engine.load_model(...)` completes.
-- `engine.infer(...)` returns `result.success == True`.
-- `result.text` contains generated output.
-- `engine.get_metrics()` shows request and latency stats.
+- **Local Linux / Workstation**: Use the standard [Installation](installation.md) + [Quickstart](quickstart.md).
+- **Kaggle Dual T4**: Jump to [Kaggle Quickstart](kaggle-quickstart.md).
+- **Observability Focus**: Start with [Telemetry and Observability](../guides/telemetry-observability.md) after Quickstart.
+- **Model and GGUF Workflows**: Read [Model Management](../guides/model-management.md) and [GGUF API](../reference/gguf-api.md).
 
-## Next
+## What `llamatelemetry` does for you
 
-- Learn server controls: [Server Management](../guides/server-management.md)
-- Learn models and registry: [Model Management](../guides/model-management.md)
-- Learn endpoint-level control: [API Client](../guides/api-client.md)
+- Finds or downloads the `llama-server` binary and sets `LD_LIBRARY_PATH`
+- Downloads GGUF models from a curated registry with VRAM-aware recommendations
+- Starts and manages `llama-server` with sensible defaults
+- Exposes a clean inference API plus an OpenAI-compatible client
+- Adds optional GPU-aware OpenTelemetry metrics and traces
+
+## Next steps
+
+- [Installation](installation.md)
+- [Quickstart](quickstart.md)
+- [Kaggle Quickstart](kaggle-quickstart.md)
+- [Notebook Hub](../notebooks/index.md)

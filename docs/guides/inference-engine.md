@@ -1,92 +1,93 @@
-# Inference Engine Guide
+# Inference Engine
 
-`InferenceEngine` is the highest-level API in `llamatelemetry`.
+`InferenceEngine` is the high-level API that wraps model discovery, server startup, and inference calls. It is designed to be the simplest way to run GGUF inference with `llama-server`.
 
-## Constructor
+## Core responsibilities
+
+- Locate or bootstrap `llama-server` binaries
+- Download GGUF models (registry, HuggingFace, or local paths)
+- Launch and manage the server process
+- Provide `infer()` / `generate()` helpers
+- Collect basic runtime metrics
+- Optionally initialize OpenTelemetry instrumentation
+
+## Creating an engine
 
 ```python
-from llamatelemetry import InferenceEngine
+import llamatelemetry as lt
 
-engine = InferenceEngine(
+engine = lt.InferenceEngine(
     server_url="http://127.0.0.1:8090",
     enable_telemetry=False,
-    telemetry_config=None,
 )
 ```
 
-## Model loading
-
-`load_model(...)` supports auto-start and auto-configuration:
+## Loading a model
 
 ```python
 engine.load_model(
     "gemma-3-1b-Q4_K_M",
     auto_start=True,
     auto_configure=True,
-    interactive_download=True,
-    n_parallel=1,
 )
 ```
 
-You can pass additional server args via `**kwargs`, for example:
+Key parameters:
 
-- `batch_size`
-- `ubatch_size`
-- `flash_attn`
-- `tensor_split`
+- `model_name_or_path`: registry name, local path, or `repo:filename` syntax
+- `gpu_layers`: layers offloaded to GPU (auto if None)
+- `ctx_size`: context length
+- `auto_start`: start `llama-server` if not already running
+- `interactive_download`: prompt before downloading
 
-## Inference patterns
+## Inference methods
 
-Single prompt:
-
-```python
-result = engine.infer("Explain GGUF in plain English.")
-```
-
-Streaming style callback:
+- `infer(prompt, **kwargs)` — primary inference call
+- `generate(prompt, **kwargs)` — alias to `infer`
+- `infer_stream(prompt, **kwargs)` — stream tokens from server
+- `batch_infer(prompts, **kwargs)` — batch inference
 
 ```python
-def on_chunk(text):
-    print(text)
-
-result = engine.infer_stream("Write a short poem.", callback=on_chunk)
+result = engine.infer("What is CUDA?", max_tokens=64)
+print(result.text)
 ```
 
-Batch prompts:
+## Metrics
 
-```python
-prompts = ["What is CUDA?", "What is NCCL?", "What is KV cache?"]
-results = engine.batch_infer(prompts, max_tokens=80)
-```
+The engine maintains simple in-process metrics:
 
-## Result object
-
-`InferResult` contains:
-
-- `success`
-- `text`
-- `tokens_generated`
-- `latency_ms`
-- `tokens_per_sec`
-- `error_message`
-
-## Metrics API
+- `requests`, `total_tokens`, `total_latency_ms`
+- `latencies` array for individual calls
 
 ```python
 metrics = engine.get_metrics()
-engine.reset_metrics()
+print(metrics)
 ```
 
-Latency includes `mean`, `p50`, `p95`, `p99`.
+## Telemetry integration
 
-## Lifecycle
+Enable telemetry during initialization:
 
-- `engine.is_loaded` tells whether a model is loaded.
-- `engine.unload_model()` stops managed server and clears state.
-- Context-manager mode auto-cleans on exit.
+```python
+engine = lt.InferenceEngine(
+    enable_telemetry=True,
+    telemetry_config={
+        "service_name": "llamatelemetry-demo",
+        "otlp_endpoint": "http://localhost:4317",
+        "enable_llama_metrics": True,
+    },
+)
+```
 
-## Recommended usage pattern
+See [Telemetry and Observability](telemetry-observability.md) for details.
 
-1. Use one engine instance per active server workflow.
-2. Use explicit model load/unload around experiments.
-3. Use `get_metrics()` after fixed workloads for apples-to-apples benchmarking.
+## Cleanup
+
+```python
+engine.unload_model()
+```
+
+## Related reference
+
+- [Core API](../reference/core-api.md)
+- [Server and Models](../reference/server-models.md)

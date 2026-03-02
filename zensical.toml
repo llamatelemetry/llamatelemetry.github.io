@@ -58,6 +58,8 @@ nav = [
   ]},
   { "Project" = [
     { "Architecture" = "project/architecture.md" },
+    { "File Map" = "project/file-map.md" },
+    { "Release Artifacts" = "project/release-artifacts.md" },
     { "FAQ" = "project/faq.md" },
     { "README Map" = "project/readme-map.md" },
     { "Changelog" = "project/changelog.md" },

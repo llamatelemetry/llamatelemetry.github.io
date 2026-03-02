@@ -1,63 +1,60 @@
-# Model Management Guide
+# Model Management
 
-`llamatelemetry.models` provides discovery, metadata extraction, smart download, and recommendations.
+`llamatelemetry.models` provides utilities for GGUF model discovery, registry-based downloads, and metadata inspection.
 
-## Smart loader
+## Key components
+
+- `ModelInfo`: parse GGUF metadata and recommend settings
+- `ModelManager`: store and manage model collections
+- `load_model_smart`: registry-aware model loader
+- `download_model`: HuggingFace download helper
+- Registry helpers: `list_registry_models`, `get_model_recommendations`
+
+## Smart model loading
 
 ```python
 from llamatelemetry.models import load_model_smart
 
-path = load_model_smart("gemma-3-1b-Q4_K_M", interactive=True)
+model_path = load_model_smart("gemma-3-1b-Q4_K_M")
+print(model_path)
 ```
 
-Accepted inputs:
+`load_model_smart` handles:
 
-- Registry model name
-- Local file path
-- Hugging Face syntax: `"repo/id:file.gguf"`
+- Registry names
+- Local filesystem paths
+- HuggingFace repo + filename syntax
 
-## Registry utilities
-
-```python
-from llamatelemetry.models import list_registry_models, print_registry_models
-
-models = list_registry_models()
-print_registry_models(vram_gb=8.0)
-```
-
-## Metadata extraction
+## Inspecting GGUF metadata
 
 ```python
 from llamatelemetry.models import ModelInfo
 
-info = ModelInfo.from_file("/path/model.gguf")
-print(info.architecture, info.context_length, info.file_size_mb)
-print(info.get_recommended_settings(vram_gb=15.0))
+info = ModelInfo.from_file("/path/to/model.gguf")
+print(info.architecture, info.context_length, info.quantization)
+print(info.get_recommended_settings(vram_gb=8))
 ```
 
-## Smart downloader with VRAM validation
+## Listing available models
 
 ```python
-from llamatelemetry.models import SmartModelDownloader
+from llamatelemetry.models import list_models
 
-downloader = SmartModelDownloader(vram_gb=15.0)
-validation = downloader.validate_model("gemma-3-12b-Q4_K_M")
-print(validation)
+models = list_models()
+for m in models:
+    print(m["filename"], m["file_size_mb"])
 ```
 
-## Directory scanning
+## Registry and recommendations
 
 ```python
-from llamatelemetry.models import list_models, ModelManager
+from llamatelemetry.models import list_registry_models, get_model_recommendations
 
-all_models = list_models(["/kaggle/working/models"])
-manager = ModelManager(["/kaggle/working/models"])
-best = manager.get_best_for_vram(vram_gb=8.0)
+registry = list_registry_models()
+recommendations = get_model_recommendations(vram_gb=16)
 ```
 
-## Recommended workflow
+## Related reference
 
-1. Validate fit with `SmartModelDownloader`.
-2. Download or reuse cache via `load_model_smart`.
-3. Inspect `ModelInfo` for context and settings.
-4. Feed tuned settings into `InferenceEngine.load_model`.
+- [Server and Models](../reference/server-models.md)
+- [GGUF API](../reference/gguf-api.md)

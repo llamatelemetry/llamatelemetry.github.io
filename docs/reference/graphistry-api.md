@@ -1,37 +1,25 @@
-# Graphistry API Reference
+# Graphistry API
 
-## Module: `llamatelemetry.graphistry`
+The `llamatelemetry.graphistry` package provides utilities for connecting to Graphistry and constructing graph visualizations from inference data.
 
-## Workload and graph creation
+## Key modules
 
-- `GraphWorkload`
-- `SplitGPUManager`
-- `create_graph_from_llm_output(...)`
-- `visualize_knowledge_graph(...)`
+- `connector` — authentication and connection helpers
+- `viz` — graph plotting helpers
+- `builders` — build graph structures from entities and relationships
+- `workload` — workload summaries
+- `rapids` — RAPIDS GPU DataFrame helpers
 
-## RAPIDS helper APIs
+## Example
 
-- `RAPIDSBackend`
-- `create_cudf_dataframe(...)`
-- `run_cugraph_algorithm(...)`
-- `check_rapids_available()`
+```python
+from llamatelemetry.graphistry.connector import GraphistryConnector
 
-## Connector APIs
+connector = GraphistryConnector()
+connector.login()
+```
 
-- `GraphistryConnector`
-- `register_graphistry(...)`
-- `plot_graph(...)`
+## Related docs
 
-## Visualization APIs
-
-- `GraphistryViz`
-- `TraceVisualization`
-- `MetricsVisualization`
-- `create_graph_viz(...)`
-
-## Typical call chain
-
-1. Register Graphistry credentials.
-2. Build entities/edges from LLM output.
-3. Convert to graph frame objects (optionally RAPIDS-backed).
-4. Plot and iterate.
+- [Graphistry and RAPIDS Guide](../guides/graphistry-rapids.md)
+- [Louie Knowledge Graphs](../guides/louie-knowledge-graphs.md)

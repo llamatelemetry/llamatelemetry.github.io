@@ -1,40 +1,22 @@
-# Louie API Reference
+# Louie API
 
-## Module: `llamatelemetry.louie.client`
+`llamatelemetry.louie` provides knowledge extraction and natural language graph analysis utilities.
 
-## Types
+## Knowledge extraction
 
-- `QueryResult`
-- `LouieClient`
-
-## Functions
-
-- `natural_query(...)`
-- `extract_entities(...)`
-- `extract_relationships(...)`
-
----
-
-## Module: `llamatelemetry.louie.knowledge`
-
-## Types
-
-- `EntityType`
-- `RelationType`
-- `Entity`
-- `Relationship`
+- `EntityType`, `RelationType`
+- `Entity`, `Relationship`
 - `KnowledgeGraph`
 - `KnowledgeExtractor`
+- `build_knowledge_graph(text)`
 
-## Function
+## Client API
 
-- `build_knowledge_graph(...)`
+- `LouieClient` — natural language graph queries
+- `natural_query()` — quick query helper
+- `extract_entities()` / `extract_relationships()`
 
-## Typical usage
+## Related docs
 
-```python
-from llamatelemetry.louie import build_knowledge_graph
-
-kg = build_knowledge_graph("NVIDIA creates GPUs and CUDA powers AI workloads.")
-print(kg)
-```
+- [Louie Knowledge Graphs](../guides/louie-knowledge-graphs.md)
+- [Graphistry API](graphistry-api.md)

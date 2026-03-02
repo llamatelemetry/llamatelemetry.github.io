@@ -1,66 +1,52 @@
-# Kaggle Environment Guide
+# Kaggle Environment
 
-`llamatelemetry.kaggle` is designed to reduce notebook boilerplate for GPU setup, secrets, presets, and engine creation.
+`llamatelemetry.kaggle` contains helpers for zero-boilerplate Kaggle setup, GPU context inspection, and secret management.
 
-## Primary entrypoint
+## Key modules
 
-```python
-from llamatelemetry.kaggle import KaggleEnvironment
+- `environment`: detect Kaggle runtime capabilities
+- `presets`: recommended configuration for T4 dual-GPU
+- `gpu_context`: VRAM and device properties
+- `secrets`: Kaggle secret retrieval
+- `pipeline`: end-to-end workflow orchestration
 
-env = KaggleEnvironment.setup(
-    enable_telemetry=True,
-    enable_graphistry=False,
-    auto_load_secrets=True,
-    split_gpu_mode=True,
-    verbose=True,
-)
-```
-
-## What setup does
-
-- Detects GPUs, VRAM, and CUDA context via `api.multigpu`
-- Selects a server preset (`KAGGLE_DUAL_T4`, `KAGGLE_SINGLE_T4`, etc.)
-- Loads secrets (`HF_TOKEN`, Graphistry keys) when available
-- Prepares telemetry and optional Graphistry registration
-
-## Create a tuned engine
+## Presets
 
 ```python
-engine = env.create_engine("gemma-3-4b-Q4_K_M", auto_start=True)
+from llamatelemetry.api import kaggle_t4_dual_config
+
+cfg = kaggle_t4_dual_config()
+print(cfg)
 ```
 
-## Presets and tensor split
-
-Use:
-
-- `ServerPreset`
-- `TensorSplitMode`
-- `get_preset_config(...)`
-
-to standardize launch behavior across notebooks.
-
-## GPU context utilities
+## GPU context
 
 ```python
-with env.rapids_context():
-    # RAPIDS on designated GPU
-    pass
+from llamatelemetry.kaggle.gpu_context import get_gpu_context
 
-with env.llm_context():
-    # LLM operations on configured GPUs
-    pass
+ctx = get_gpu_context()
+print(ctx)
 ```
 
-## Secrets helpers
+## Secrets
 
-From `llamatelemetry.kaggle.secrets`:
+```python
+from llamatelemetry.kaggle.secrets import KaggleSecrets
 
-- `auto_load_secrets`
-- `setup_huggingface_auth`
-- `setup_graphistry_auth`
+secrets = KaggleSecrets()
+print(secrets.get("OTLP_ENDPOINT"))
+```
 
-## Recommended notebook pattern
+## Pipeline (high level)
 
-1. `env = KaggleEnvironment.setup(...)`
-2. `engine = env.create_engine(...)`
-3. Use `rapids_context()` for graph analytics workload separation.
+```python
+from llamatelemetry.kaggle.pipeline import KagglePipeline
+
+pipeline = KagglePipeline()
+pipeline.prepare_environment()
+```
+
+## Related reference
+
+- [Kaggle API](../reference/kaggle-api.md)
+- [Kaggle Quickstart](../get-started/kaggle-quickstart.md)

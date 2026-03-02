@@ -1,35 +1,33 @@
 # Architecture Overview
 
-`llamatelemetry v0.1.0` is organized as a Python orchestration SDK around `llama-server` with optional telemetry and GPU analytics layers.
+`llamatelemetry` is a Python orchestration SDK around `llama-server` with optional telemetry and GPU analytics layers.
 
-## Layers
+## High-level layers
 
-1. Bootstrap/runtime environment setup
-2. High-level inference facade (`InferenceEngine`)
-3. Server lifecycle management (`ServerManager`)
-4. Endpoint-level client (`LlamaCppClient`)
-5. Model and GGUF tooling
-6. Optional observability, graph analytics, and optimization modules
+1. **Bootstrap/runtime** — automatic discovery and download of CUDA binaries and libs
+2. **Inference facade** — `InferenceEngine` provides a high-level API
+3. **Server lifecycle** — `ServerManager` starts, monitors, and stops `llama-server`
+4. **Client API** — `LlamaCppClient` for OpenAI-compatible endpoints
+5. **Model tooling** — GGUF registry, metadata inspection, and quantization helpers
+6. **Optional telemetry** — OpenTelemetry traces and GPU metrics
+7. **Optional analytics** — Graphistry/RAPIDS hooks and knowledge graphs
 
-## Request flow
+## Typical request flow
 
-1. `InferenceEngine.load_model(...)` resolves and configures model.
-2. `ServerManager.start_server(...)` launches or attaches to server.
-3. `InferenceEngine.infer(...)` sends HTTP request to `/completion`.
-4. Response maps into `InferResult`.
-5. Optional telemetry annotates spans and records metrics.
+1. `InferenceEngine.load_model()` resolves model path and downloads if needed
+2. `ServerManager.start_server()` launches or attaches to `llama-server`
+3. `InferenceEngine.infer()` sends a request to `/completion`
+4. The response maps into `InferResult`
+5. Optional telemetry spans/metrics are emitted
 
-## Optional subsystem families
+## Runtime characteristics
 
-- `telemetry`: OpenTelemetry setup/instrumentation
-- `kaggle`: environment and preset orchestration
-- `graphistry`: graph analytics integration
-- `quantization`/`api.gguf`: model conversion and quantization helpers
-- `cuda`/`inference`: advanced optimization utilities
-- `unsloth`: fine-tune/export integration
+- **Kaggle-first**: optimized for T4 x2 dual-GPU environments
+- **Hybrid bootstrap**: binaries are downloaded on first use
+- **Optional dependencies**: telemetry, Graphistry, Triton, Unsloth
 
-## Design characteristics
+## Where to go next
 
-- Pragmatic high-level API with extensible lower-level controls.
-- Heavy optional dependency model (graceful degradation when unavailable).
-- Strong Kaggle-oriented presets and workflows in `v0.1.0`.
+- [Project File Map](file-map.md)
+- [Release Artifacts](release-artifacts.md)
+- [Core API](../reference/core-api.md)

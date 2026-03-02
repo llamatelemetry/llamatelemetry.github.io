@@ -1,53 +1,32 @@
-# Quantization Guide
+# Quantization
 
-`llamatelemetry` exposes quantization workflows through both `llamatelemetry.api.gguf` and `llamatelemetry.quantization`.
+Quantization reduces model size and improves inference speed at the cost of some accuracy. `llamatelemetry` supports GGUF quantization workflows and recommendations.
 
-## GGUF utility path (`llamatelemetry.api.gguf`)
+## Key modules
 
-Common operations:
+- `llamatelemetry.quantization.dynamic` — dynamic quantization helpers
+- `llamatelemetry.quantization.nf4` — NF4 quantization helpers
+- `llamatelemetry.quantization.gguf` — GGUF quantization helpers
+- `llamatelemetry.api.gguf` — GGUF analysis and quantization utilities
 
-- Parse header: `parse_gguf_header`
-- Quantize: `quantize`
-- Convert HF to GGUF: `convert_hf_to_gguf`
-- Merge LoRA: `merge_lora`
-- Generate imatrix: `generate_imatrix`
-- Validate and compare: `validate_gguf`, `compare_models`
-
-Example:
+## Quantization recommendations
 
 ```python
-from llamatelemetry.api.gguf import parse_gguf_header, validate_gguf
+from llamatelemetry.api.gguf import get_recommended_quant
 
-info = parse_gguf_header("model.gguf", read_tensors=False)
-ok, msg = validate_gguf("model.gguf")
+print(get_recommended_quant(vram_gb=8, params_b=3))
 ```
 
-## Quantization package path (`llamatelemetry.quantization`)
-
-- NF4 helpers: `quantize_nf4`, `dequantize_nf4`
-- GGUF conversion helpers: `convert_to_gguf`, `save_gguf`
-- Dynamic quantization: `quantize_dynamic`
-
-Example:
+## GGUF validation
 
 ```python
-from llamatelemetry.quantization import quantize_dynamic
+from llamatelemetry.api.gguf import validate_gguf
 
-q_model = quantize_dynamic(model)
+report = validate_gguf("/path/to/model.gguf")
+print(report)
 ```
 
-## Model-size and fit planning
+## Related docs
 
-Use:
-
-- `estimate_gguf_size`
-- `get_recommended_quant`
-- `recommend_quant_for_kaggle`
-
-to choose a quantization strategy based on VRAM constraints and target quality.
-
-## Best practice
-
-1. Start with Q4_K_M for broad compatibility.
-2. Validate output quality against baseline prompts.
-3. Profile latency and memory before and after quantization changes.
+- [GGUF API](../reference/gguf-api.md)
+- [Model Management](model-management.md)

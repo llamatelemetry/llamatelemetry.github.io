@@ -1,49 +1,31 @@
-# Telemetry API Reference
+# Telemetry API
 
-## Module: `llamatelemetry.telemetry`
+The `llamatelemetry.telemetry` package provides OpenTelemetry tracing and metrics with GPU-aware resource attributes.
 
-## Setup and capability
+## Entry points
 
-- `setup_telemetry(...)`
-- `is_otel_available()`
-- `is_graphistry_available()`
-- `get_metrics_collector()`
+- `setup_telemetry(...)` — initialize tracer and meter
+- `is_otel_available()` — check SDK availability
+- `is_graphistry_available()` — check Graphistry availability
+- `get_metrics_collector()` — access GPU metrics collector
+- `setup_otlp_env_from_kaggle_secrets()` — load OTLP endpoints from Kaggle secrets
 
-## Auto instrumentation exports
+## Core components
 
-- `instrument_inference`
-- `inference_span`
-- `batch_inference_span`
-- `create_llm_attributes`
-- `annotate_span_from_result`
+- `InferenceTracerProvider` — tracer provider with export hooks
+- `GpuMetricsCollector` — GPU + llama.cpp metrics collection
+- `InferenceTracer` — helper for inference spans
+- `GraphistryTraceExporter` — optional graph export
 
-## Client instrumentation exports
+## Semantic conventions
 
-- `LlamaCppClientInstrumentor`
-- `instrument_llamacpp_client`
-- `uninstrument_llamacpp_client`
+`llamatelemetry.telemetry.semconv` provides helpers for GenAI semantic attributes:
 
-## Monitoring exports
+- `set_gen_ai_attr()`
+- `set_gen_ai_provider()`
+- `attr_name()` and `metric_name()` helpers
 
-- `PerformanceSnapshot`
-- `InferenceRecord`
-- `PerformanceMonitor`
+## Related docs
 
-## Supporting modules (advanced)
-
-- `telemetry.tracer`
-- `telemetry.metrics`
-- `telemetry.monitor`
-- `telemetry.resource`
-- `telemetry.exporter`
-- `telemetry.graphistry_export`
-
-## Example
-
-```python
-from llamatelemetry.telemetry import setup_telemetry, inference_span
-
-tracer, meter = setup_telemetry(service_name="demo", service_version="0.1.0")
-with inference_span("demo-request", model="gemma", prompt="hello"):
-    pass
-```
+- [Telemetry and Observability](../guides/telemetry-observability.md)
+- [Graphistry API](graphistry-api.md)

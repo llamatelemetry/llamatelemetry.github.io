@@ -1,39 +1,29 @@
 # FAQ
 
-## Does `llamatelemetry` include its own model weights?
+## What is `llamatelemetry`?
 
-No. Models are loaded from local GGUF paths or downloaded from Hugging Face/registry references.
+A CUDA-first Python SDK that orchestrates `llama-server` for GGUF inference with optional OpenTelemetry, Kaggle presets, and graph analytics.
 
-## Is this only for Kaggle?
+## Does it run without a GPU?
 
-No, but `v0.1.0` is strongly optimized for Kaggle dual T4 workflows.
+Yes, but performance will be limited. The SDK is optimized for NVIDIA GPUs, especially Kaggle T4 x2.
 
-## What is the fastest way to get started?
+## How does it download binaries?
 
-Use:
+On first import, the bootstrap layer checks for `llama-server` and downloads a CUDA bundle if needed. The binary is cached in the package directory or user cache.
 
-1. [Installation](../get-started/installation.md)
-2. [Quickstart](../get-started/quickstart.md)
+## Where are models stored?
 
-## When should I use `LlamaCppClient` instead of `InferenceEngine`?
+By default in `llamatelemetry/models/`. You can pass a local path or override via your own download logic.
 
-Use `LlamaCppClient` when you need endpoint-level control (`slots`, `lora`, `props`, specialized sampling parameters, etc.).
+## Is OpenTelemetry required?
 
-## How do I enable telemetry?
+No. Telemetry is optional. If the OTel SDK is not installed, the telemetry layer is disabled gracefully.
 
-Either:
+## How can I use my own llama.cpp build?
 
-- initialize `InferenceEngine(enable_telemetry=True, telemetry_config=...)`, or
-- call `llamatelemetry.telemetry.setup_telemetry(...)` directly.
+Set `LLAMA_CPP_DIR` or `LLAMA_SERVER_PATH` to point to your custom build.
 
-## Why are some features unavailable in my environment?
+## What environments are supported?
 
-Many advanced capabilities are optional and depend on installed packages/hardware (`Triton`, OpenTelemetry exporters, Graphistry/RAPIDS, NVIDIA runtime).
-
-## Where are notebooks documented?
-
-See [Notebook Hub](../notebooks/index.md).
-
-## How do I debug startup failures?
-
-Start with [Troubleshooting](../guides/troubleshooting.md), especially server path checks and `silent=False` startup mode.
+Linux is primary. Kaggle T4 x2 is the best-supported configuration. Windows support is limited.

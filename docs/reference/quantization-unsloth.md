@@ -1,49 +1,27 @@
-# Quantization and Unsloth API Reference
+# Quantization and Unsloth API
 
-## Module: `llamatelemetry.quantization`
+## Quantization
 
-### NF4
+`llamatelemetry.quantization` includes helper modules for dynamic quantization, NF4, and GGUF-specific conversions.
 
-- `NF4Config`
-- `NF4Quantizer`
-- `quantize_nf4(...)`
-- `dequantize_nf4(...)`
+Key modules:
 
-### GGUF conversion
+- `quantization.dynamic`
+- `quantization.nf4`
+- `quantization.gguf`
 
-- `GGUFQuantType`
-- `GGUFConverter`
-- `convert_to_gguf(...)`
-- `save_gguf(...)`
-- `load_gguf_metadata(...)`
+## Unsloth integration
 
-### Dynamic quantization
+`llamatelemetry.unsloth` provides adapters, loaders, and exporters.
 
-- `QuantStrategy`
-- `AutoQuantConfig`
-- `DynamicQuantizer`
-- `quantize_dynamic(...)`
+Key classes and functions:
 
----
+- `UnslothModelLoader` — check availability and load a model
+- `UnslothAdapter` — wrap Unsloth fine-tuned models
+- `UnslothExporter` — export to GGUF or llamatelemetry runtime
+- `export_to_gguf(...)` — convert and export
 
-## Module: `llamatelemetry.unsloth`
+## Related docs
 
-### Loader
-
-- `check_unsloth_available()`
-- `UnslothModelLoader`
-- `load_unsloth_model(...)`
-
-### Export
-
-- `ExportConfig`
-- `UnslothExporter`
-- `export_to_llamatelemetry(...)`
-- `export_to_gguf(...)`
-
-### Adapters
-
-- `AdapterConfig`
-- `LoRAAdapter`
-- `merge_lora_adapters(...)`
-- `extract_base_model(...)`
+- [Quantization Guide](../guides/quantization.md)
+- [Unsloth Guide](../guides/unsloth.md)

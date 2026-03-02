@@ -1,51 +1,26 @@
-# Jupyter Workflows Guide
+# Jupyter Workflows
 
-`llamatelemetry.jupyter` provides notebook-oriented helpers for interactive workflows.
+The `llamatelemetry.jupyter` module provides notebook-friendly helpers for streaming outputs and interactive UI.
 
-## Main helpers
+## Key helpers
 
-- `stream_generate(...)`
-- `progress_generate(...)`
-- `display_metrics(engine, as_dataframe=True)`
-- `compare_temperatures(...)`
-- `visualize_tokens(...)`
-- `ChatWidget`
+- `stream_generate` — stream tokens in real time
+- `progress_generate` — batch generation with progress bars
+- `display_metrics` — render metrics for quick inspection
+- `ChatWidget` — interactive chat UI
 
-## Streaming generation in notebook
+## Example
 
 ```python
 from llamatelemetry.jupyter import stream_generate
+from llamatelemetry import InferenceEngine
 
-stream_generate(engine, prompt="Explain KV cache simply.")
+engine = InferenceEngine()
+engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
+
+stream_generate(engine, "Explain CUDA streams.", max_tokens=64)
 ```
 
-## Compare generation settings
+## Related reference
 
-```python
-from llamatelemetry.jupyter import compare_temperatures
-
-compare_temperatures(
-    engine=engine,
-    prompt="Write a short summary about GGUF.",
-    temperatures=[0.2, 0.7, 1.0],
-)
-```
-
-## Display runtime metrics
-
-```python
-from llamatelemetry.jupyter import display_metrics
-
-display_metrics(engine, as_dataframe=True)
-```
-
-## Widget-based interaction
-
-`ChatWidget` can provide a notebook-native chat UI if notebook dependencies are installed.
-
-## Recommended notebook setup
-
-1. Create and test `InferenceEngine`.
-2. Run a short warmup prompt.
-3. Use `progress_generate` or `stream_generate`.
-4. Capture telemetry/metrics snapshots after each experiment.
+- [Jupyter, Chat, and Embeddings API](../reference/jupyter-chat-embeddings.md)

@@ -1,31 +1,27 @@
 # API Reference Index
 
-This reference documents the `llamatelemetry v0.1.0` Python SDK surface by module family.
+This section documents the public `llamatelemetry` APIs and module surfaces. Use the pages below for detailed class and function references.
 
-## Reference sections
+## Core
 
-- [Core API](core-api.md)
-- [Server and Models](server-models.md)
-- [Client API](client-api.md)
-- [GGUF API](gguf-api.md)
-- [Multi-GPU and NCCL](multigpu-nccl.md)
-- [Telemetry API](telemetry-api.md)
-- [Kaggle API](kaggle-api.md)
-- [Graphistry API](graphistry-api.md)
-- [Quantization and Unsloth API](quantization-unsloth.md)
-- [CUDA and Inference API](cuda-inference-api.md)
-- [Jupyter, Chat, and Embeddings API](jupyter-chat-embeddings.md)
-- [Louie API](louie-api.md)
+- [Core API](core-api.md) — `InferenceEngine`, `InferResult`, and core helpers
+- [Server and Models](server-models.md) — `ServerManager`, model discovery, and registries
+- [Client API](client-api.md) — `LlamaCppClient` and OpenAI-compatible interfaces
 
-## Version scope
+## Model and GGUF
 
-This documentation targets:
+- [GGUF API](gguf-api.md) — GGUF parsing, validation, and quantization helpers
+- [Multi-GPU and NCCL](multigpu-nccl.md) — multi-GPU config and NCCL helpers
 
-- Package version: `0.1.0`
-- Primary runtime pattern: llama.cpp server + Python orchestration
+## Observability
 
-## Notes
+- [Telemetry API](telemetry-api.md) — tracing, metrics, and OTLP export
+- [Graphistry API](graphistry-api.md) — graph visualization utilities
 
-- Some APIs are optional-dependency-gated.
-- Some APIs are optimized for Kaggle/Linux environments.
-- Endpoint behavior depends on `llama-server` version and launch flags.
+## Environment and workflows
+
+- [Kaggle API](kaggle-api.md) — Kaggle environment and presets
+- [CUDA and Inference API](cuda-inference-api.md) — CUDA graphs, tensor cores, and inference optimizations
+- [Quantization and Unsloth API](quantization-unsloth.md) — quantization helpers and Unsloth exports
+- [Jupyter, Chat, and Embeddings API](jupyter-chat-embeddings.md) — notebook UX and embeddings
+- [Louie API](louie-api.md) — knowledge extraction and NLP graph queries

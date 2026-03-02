@@ -2,7 +2,7 @@
 
 ## v0.1.0
 
-Initial public release line for `llamatelemetry` package family.
+Initial public release line for the `llamatelemetry` package family.
 
 Highlights:
 
@@ -13,7 +13,8 @@ Highlights:
 - OpenTelemetry integration surface
 - Graphistry/RAPIDS integration utilities
 - Quantization and Unsloth integration modules
-- Notebook suite (16 notebooks) spanning foundation to observability workflows
+- Notebook suite (18 notebooks) spanning foundation to observability workflows
+- Source and CUDA binary release artifacts
 
 For source-level release details, see:
 

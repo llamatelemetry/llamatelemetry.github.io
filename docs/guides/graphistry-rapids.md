@@ -1,51 +1,37 @@
-# Graphistry and RAPIDS Guide
+# Graphistry and RAPIDS
 
-`llamatelemetry.graphistry` provides adapters and workload helpers for graph-centric analysis.
+`llamatelemetry.graphistry` provides optional integration for visualizing inference traces, knowledge graphs, and model structures with Graphistry and RAPIDS.
 
 ## Modules
 
-- `workload.py`: split-GPU graph workloads and graph construction
-- `connector.py`: Graphistry registration and plotting integration
-- `rapids.py`: RAPIDS capability checks and helper wrappers
-- `viz.py`: trace and metric visualization classes
+- `connector`: Auth and connection helpers
+- `viz`: Visualization helpers
+- `builders`: Graph construction utilities
+- `workload`: Workload summary models
+- `rapids`: GPU DataFrame integration
 
-## Basic registration
+## Typical workflow
 
-```python
-from llamatelemetry.graphistry import register_graphistry
+1. Build or extract a graph from inference or knowledge extraction
+2. Convert to a DataFrame or edge list
+3. Use Graphistry to render or share
 
-register_graphistry(
-    api=3,
-    server="hub.graphistry.com",
-    personal_key_id="...",
-    personal_key_secret="...",
-)
-```
-
-## Create graph from model output
+## Minimal example
 
 ```python
-from llamatelemetry.graphistry import create_graph_from_llm_output
+from llamatelemetry.graphistry.connector import GraphistryConnector
+from llamatelemetry.graphistry.viz import plot_graph
 
-graph = create_graph_from_llm_output(text_output)
+connector = GraphistryConnector()
+connector.login()
+
+# Example: plot a simple edge list
+edges = [("llama", "telemetry"), ("telemetry", "graphistry")]
+plot_graph(edges)
 ```
 
-## RAPIDS checks
+## Related docs
 
-```python
-from llamatelemetry.graphistry import check_rapids_available
-
-availability = check_rapids_available()
-print(availability)
-```
-
-## Typical split-GPU pattern
-
-1. Run inference on GPU 0.
-2. Move extracted entities/relations to GPU 1 context.
-3. Build and plot graph objects with Graphistry/RAPIDS.
-
-See also:
-
-- [Kaggle Environment guide](kaggle-environment.md)
-- [Louie Knowledge Graph guide](louie-knowledge-graphs.md)
+- [Louie Knowledge Graphs](louie-knowledge-graphs.md)
+- [Telemetry and Observability](telemetry-observability.md)
+- [Graphistry API](../reference/graphistry-api.md)

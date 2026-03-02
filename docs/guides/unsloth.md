@@ -1,46 +1,26 @@
-# Unsloth Integration Guide
+# Unsloth Integration
 
-`llamatelemetry.unsloth` supports moving from fine-tuning to deployable inference artifacts.
+`llamatelemetry.unsloth` provides a bridge between Unsloth fine-tuning workflows and GGUF export for inference.
 
-## Core exports
+## Key components
 
-- Loader:
-  - `check_unsloth_available`
-  - `load_unsloth_model`
-  - `UnslothModelLoader`
-- Export:
-  - `export_to_llamatelemetry`
-  - `export_to_gguf`
-  - `UnslothExporter`
-- Adapters:
-  - `LoRAAdapter`, `AdapterConfig`
-  - `merge_lora_adapters`
-  - `extract_base_model`
+- `UnslothAdapter` — wraps Unsloth models and adapters
+- `UnslothModelLoader` — checks availability and loads models
+- `UnslothExporter` — exports to llamatelemetry or GGUF
 
 ## Example workflow
 
 ```python
-from llamatelemetry.unsloth import export_to_llamatelemetry
+from llamatelemetry.unsloth import UnslothModelLoader, UnslothExporter
 
-export_to_llamatelemetry(
-    model=model,
-    tokenizer=tokenizer,
-    output_path="model.gguf",
-    quant_type="Q4_K_M",
-)
+loader = UnslothModelLoader()
+model = loader.load_unsloth_model("unsloth/mistral-7b-bnb-4bit")
+
+exporter = UnslothExporter()
+exporter.export_to_gguf(model, output_path="mistral.gguf")
 ```
 
-Then run inference with `InferenceEngine`:
+## Related docs
 
-```python
-from llamatelemetry import InferenceEngine
-
-engine = InferenceEngine()
-engine.load_model("model.gguf", auto_start=True)
-```
-
-## Guidance
-
-- Keep training and deployment artifact versions explicit.
-- Validate generated GGUF with `llamatelemetry.api.gguf.validate_gguf`.
-- Use representative benchmark prompts before promotion.
+- [Quantization](quantization.md)
+- [Unsloth API](../reference/quantization-unsloth.md)

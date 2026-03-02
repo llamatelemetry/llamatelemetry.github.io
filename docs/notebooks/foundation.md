@@ -1,29 +1,13 @@
-# Foundation Track (Notebooks 01-04)
+# Foundation Track
 
-Focus: first inference, server setup, multi-GPU basics, GGUF quantization fundamentals.
+This track groups notebooks with a shared learning goal. Each entry links to a cell-by-cell walkthrough.
 
-## Notebook 01: Quick Start
+## Notebooks
 
-- Objective: get first successful local/Kaggle inference.
-- Outcome: basic `InferenceEngine` flow works.
+- [01-quickstart-llamatelemetry-v0-1-0-e1](./01-quickstart-llamatelemetry-v0-1-0-e1.md) — Quickstart: install, detect GPUs, run inference.
 
-## Notebook 02: llama-server Setup
+- [02-llama-server-setup-llamatelemetry-v0-1-0-e1](./02-llama-server-setup-llamatelemetry-v0-1-0-e1.md) — Server setup: start and manage llama-server.
 
-- Objective: runtime/server parameter tuning.
-- Outcome: understand launch flags and health checks.
+- [03-multi-gpu-inference-llamatelemetry-v0-1-0-e1](./03-multi-gpu-inference-llamatelemetry-v0-1-0-e1.md) — Multi-GPU inference and split configuration.
 
-## Notebook 03: Multi-GPU Inference
-
-- Objective: dual T4 execution and tensor split intuition.
-- Outcome: choose and validate split strategy.
-
-## Notebook 04: GGUF Quantization
-
-- Objective: compare quantization families and memory/perf tradeoffs.
-- Outcome: pick model size + quantization for target VRAM.
-
-## Before moving on
-
-- You can run inference reliably.
-- You understand server startup knobs.
-- You can estimate model fit in VRAM.
+- [04-gguf-quantization-llamatelemetry-v0-1-0-e1](./04-gguf-quantization-llamatelemetry-v0-1-0-e1.md) — GGUF quantization and model size tradeoffs.

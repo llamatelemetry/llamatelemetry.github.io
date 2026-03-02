@@ -1,47 +1,25 @@
-# Louie Knowledge Graph Guide
+# Louie Knowledge Graphs
 
-`llamatelemetry.louie` bridges LLM output with graph-oriented analysis patterns.
+`llamatelemetry.louie` provides knowledge extraction helpers and a client for natural language graph analysis.
 
-## Package exports
+## Components
 
-- Client utilities:
-  - `LouieClient`
-  - `natural_query`
-  - `extract_entities`
-  - `extract_relationships`
-- Knowledge utilities:
-  - `KnowledgeExtractor`
-  - `build_knowledge_graph`
-  - `EntityType`, `RelationType`
+- `KnowledgeExtractor` — extract entities and relationships from text
+- `KnowledgeGraph` — structured graph container
+- `LouieClient` — natural language graph queries
 
-## Basic extraction flow
+## Example
 
 ```python
-from llamatelemetry.louie import extract_entities, extract_relationships
+from llamatelemetry.louie.knowledge import build_knowledge_graph
 
-text = "NVIDIA builds GPUs and CUDA powers accelerated computing."
-entities = extract_entities(text)
-relations = extract_relationships(text)
-```
-
-## Build graph object
-
-```python
-from llamatelemetry.louie import build_knowledge_graph
-
+text = "NVIDIA created CUDA and released it in 2007."
 kg = build_knowledge_graph(text)
+print(kg.entities)
+print(kg.relationships)
 ```
 
-## Natural language query pattern
+## Related docs
 
-```python
-from llamatelemetry.louie import natural_query
-
-result = natural_query("Find relationships between CUDA and LLM inference.")
-```
-
-## Integration recommendations
-
-- Pair with `graphistry` module for visualization.
-- Use in notebook pipelines for document-to-graph workflows.
-- Keep extraction prompts/domain-specific schemas versioned.
+- [Graphistry and RAPIDS](graphistry-rapids.md)
+- [Louie API](../reference/louie-api.md)

@@ -1,24 +1,11 @@
-# Advanced Track (Notebooks 07-13)
+# Advanced Track
 
-Focus: knowledge extraction, document graph analysis, large-model strategy, and model internals visualization.
+This track groups notebooks with a shared learning goal. Each entry links to a cell-by-cell walkthrough.
 
-## Knowledge and graph workflows
+## Notebooks
 
-- Notebook 07: Knowledge graph extraction
-- Notebook 08: Document network analysis
+- [11-gguf-neural-network-graphistry-vis-executed-e1](./11-gguf-neural-network-graphistry-vis-executed-e1.md) — GGUF neural network visualization.
 
-## Scale and production workflow
+- [12-gguf-attention-mechanism-explorer-executed-e1](./12-gguf-attention-mechanism-explorer-executed-e1.md) — Attention mechanism exploration and analysis.
 
-- Notebook 09: Large models on Kaggle
-- Notebook 10: Complete workflow
-
-## Model internals visualization
-
-- Notebook 11: Neural network graph views
-- Notebook 12: Attention mechanism exploration
-- Notebook 13: Token embedding visualization
-
-## Outcome
-
-- You can design end-to-end pipelines beyond single prompt-response flows.
-- You can inspect and visualize internals for explainability/debugging.
+- [13-gguf-token-embedding-visualizer-executed-e1](./13-gguf-token-embedding-visualizer-executed-e1.md) — Token embedding visualization workflows.

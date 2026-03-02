@@ -1,67 +1,68 @@
-# Quickstart (Local)
+# Quickstart
 
-## Minimal flow
+This walkthrough loads a small GGUF model, launches `llama-server`, and runs inference.
+
+## 1) Install
+
+```bash
+pip install --no-cache-dir --force-reinstall \
+  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+```
+
+## 2) Verify CUDA
 
 ```python
-from llamatelemetry import InferenceEngine
+from llamatelemetry import detect_cuda
 
-engine = InferenceEngine(server_url="http://127.0.0.1:8090")
+cuda_info = detect_cuda()
+print(cuda_info)
+```
+
+## 3) Load a model
+
+```python
+import llamatelemetry as lt
+
+engine = lt.InferenceEngine(enable_telemetry=False)
 engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
-
-result = engine.infer("Give me 3 bullet points about quantization.")
-print(result.text if result.success else result.error_message)
 ```
 
-## Load model options
-
-`InferenceEngine.load_model(model_name_or_path, ...)` supports:
-
-- Registry model name:
-  - `"gemma-3-1b-Q4_K_M"`
-- Local file path:
-  - `"/path/to/model.gguf"`
-- Hugging Face format:
-  - `"repo/id:file.gguf"`
-
-## Essential inference options
+## 4) Run inference
 
 ```python
-result = engine.infer(
-    prompt="What is tensor parallelism?",
-    max_tokens=128,
-    temperature=0.7,
-    top_p=0.9,
-    top_k=40,
-    stop_sequences=["\n\nUser:"],
-)
+result = engine.generate("What is CUDA?", max_tokens=64)
+print(result.text)
 ```
 
-## Metrics snapshot
+## 5) Batch inference
+
+```python
+prompts = [
+    "Explain tensor cores in one sentence.",
+    "What is llama.cpp?",
+    "How does GGUF quantization work?",
+]
+results = engine.batch_generate(prompts, max_tokens=64)
+for r in results:
+    print(r.text)
+```
+
+## 6) Fetch metrics
 
 ```python
 metrics = engine.get_metrics()
-print(metrics["latency"])
-print(metrics["throughput"])
+print(metrics)
 ```
 
-## Cleanup
+## 7) Clean up
 
 ```python
 engine.unload_model()
 ```
 
-Or use context manager:
+## Next steps
 
-```python
-from llamatelemetry import InferenceEngine
-
-with InferenceEngine() as engine:
-    engine.load_model("gemma-3-1b-Q4_K_M")
-    print(engine.infer("Hello").text)
-```
-
-## Next
-
-- [Server Management](../guides/server-management.md)
 - [Model Management](../guides/model-management.md)
-- [API Client guide](../guides/api-client.md)
+- [Server Management](../guides/server-management.md)
+- [Telemetry and Observability](../guides/telemetry-observability.md)
+- [Notebook Hub](../notebooks/index.md)

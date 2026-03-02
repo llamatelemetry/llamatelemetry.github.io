@@ -1,24 +1,13 @@
-# Observability Track (Notebooks 14-16)
+# Observability Track
 
-Focus: production-grade tracing, real-time metrics, and unified observability dashboards.
+This track groups notebooks with a shared learning goal. Each entry links to a cell-by-cell walkthrough.
 
-## Notebook 14: OpenTelemetry LLM Observability
+## Notebooks
 
-- Introduces SDK-level tracing/metrics setup.
-- Covers OTLP export patterns and span enrichment.
+- [14-opentelemetry-llm-observability-e5](./14-opentelemetry-llm-observability-e5.md) — OpenTelemetry observability baseline.
 
-## Notebook 15: Real-Time Performance Monitoring
+- [15-rt-performance-monitoring-llamatelemetry-e3](./15-rt-performance-monitoring-llamatelemetry-e3.md) — Real-time performance monitoring.
 
-- Uses live metrics for throughput, latency, queue, and GPU health.
-- Demonstrates near-real-time dashboarding.
+- [16-production-observability-llamatelemetry-e2](./16-production-observability-llamatelemetry-e2.md) — Production-grade observability patterns.
 
-## Notebook 16: Production Observability Stack
-
-- Combines traces + metrics + visualization layers.
-- Integrates graph and numeric telemetry views for operations workflows.
-
-## Recommended prerequisites
-
-- Complete at least notebooks 01-03 first.
-- Ensure runtime has telemetry dependencies installed.
-- Validate server metrics endpoint availability where required.
+- [18-otel-graphistry-trace-glue-e2](./18-otel-graphistry-trace-glue-e2.md) — Otel + Graphistry trace correlation.

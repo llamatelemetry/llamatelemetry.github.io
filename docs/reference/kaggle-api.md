@@ -1,45 +1,26 @@
-# Kaggle API Reference
+# Kaggle API
 
-## Module: `llamatelemetry.kaggle`
+`llamatelemetry.kaggle` provides Kaggle-specific utilities and presets.
 
-## Main class
+## Environment detection
 
-- `KaggleEnvironment`
+- `is_kaggle()` — detect Kaggle runtime
+- `get_kaggle_environment()` — return environment metadata
 
-Key methods:
+## Presets and configuration
 
-- `KaggleEnvironment.setup(...)`
-- `create_engine(model_name_or_path, ...)`
-- `rapids_context()`
-- `llm_context()`
-- `download_model(repo_id, filename, local_dir=None)`
-- `get_model_download_path()`
+- `kaggle_t4_dual_config()` — recommended split for dual T4
+- `colab_t4_single_config()` — single T4 defaults
 
-## Preset APIs
+## Secrets
 
-- `ServerPreset`
-- `TensorSplitMode`
-- `PresetConfig`
-- `get_preset_config(...)`
-- `PRESET_CONFIGS`
+- `KaggleSecrets` — read secrets from Kaggle UI
 
-## Secrets APIs
+## Pipeline helpers
 
-- `KaggleSecrets`
-- `auto_load_secrets(...)`
-- `setup_huggingface_auth()`
-- `setup_graphistry_auth()`
+- `KagglePipeline` — one-stop environment preparation
 
-## GPU context APIs
+## Related docs
 
-- `GPUContext`
-- `rapids_gpu(...)`
-- `llm_gpu(...)`
-- `single_gpu(...)`
-- `get_current_gpu_context()`
-- `set_gpu_for_rapids(...)`
-- `reset_gpu_context(...)`
-
-## Convenience function
-
-- `quick_setup(**kwargs)` -> alias for `KaggleEnvironment.setup`
+- [Kaggle Quickstart](../get-started/kaggle-quickstart.md)
+- [Kaggle Environment Guide](../guides/kaggle-environment.md)

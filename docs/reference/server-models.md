@@ -1,59 +1,45 @@
-# Server and Models API Reference
+# Server and Models
 
-## Module: `llamatelemetry.server`
+## ServerManager
 
-## Class: `ServerManager`
+Lifecycle manager for `llama-server`.
 
-### Methods
+**Key methods:**
 
-- `find_llama_server()`
-- `check_server_health(timeout=2.0)`
-- `start_server(...)`
-- `stop_server(timeout=10.0)`
-- `get_server_info()`
-- `restart_server(model_path, **kwargs)`
+- `find_llama_server()` — locate or download the binary
+- `start_server(model_path, **kwargs)` — launch server
+- `stop_server()` — terminate server
+- `check_server_health()` / `get_health()` — readiness checks
+- `get_metrics()` — Prometheus metrics text
+- `get_models()` — OpenAI-style model list
+- `get_slots()` — slot status
 
-### Important `start_server` parameters
+## ModelInfo
 
-- `model_path`
-- `host`, `port`
-- `gpu_layers`, `ctx_size`
-- `batch_size`, `ubatch_size`
-- `n_parallel`
-- `silent`
-- extra kwargs mapped to server flags (for example `flash_attn`)
-
----
-
-## Module: `llamatelemetry.models`
-
-## Classes
-
-- `ModelInfo`
-- `ModelManager`
-- `SmartModelDownloader`
-
-## Functions
-
-- `list_models(directories=None)`
-- `download_model(repo_id, filename, output_dir=None)`
-- `get_model_recommendations(vram_gb=8.0)`
-- `print_model_catalog(vram_gb=None)`
-- `load_model_smart(model_name_or_path, ...)`
-- `list_registry_models()`
-- `print_registry_models(vram_gb=None)`
-
-## `SmartModelDownloader` methods
-
-- `validate_model(model_name)`
-- `download(model_name_or_path, force=False, ...)`
-- `get_recommendations(max_size_gb=None, min_quality="Q4_K_M")`
-
-## Common pattern
+Parses GGUF metadata and provides recommended settings.
 
 ```python
-from llamatelemetry.models import SmartModelDownloader
-
-downloader = SmartModelDownloader(vram_gb=15.0)
-print(downloader.validate_model("gemma-3-4b-Q4_K_M"))
+from llamatelemetry.models import ModelInfo
+info = ModelInfo.from_file("model.gguf")
+print(info.get_recommended_settings(vram_gb=8))
 ```
+
+## ModelManager
+
+In-memory manager for model registries and metadata.
+
+## Registry helpers
+
+- `list_registry_models()`
+- `print_registry_models()`
+- `get_model_recommendations()`
+
+## Smart loading
+
+- `load_model_smart(model_name_or_path, ...)`
+- `download_model(repo_id, filename, ...)`
+
+## Related modules
+
+- [Core API](core-api.md)
+- [GGUF API](gguf-api.md)

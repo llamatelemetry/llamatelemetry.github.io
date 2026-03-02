@@ -1,62 +1,65 @@
-# Telemetry and Observability Guide
+# Telemetry and Observability
 
-`llamatelemetry.telemetry` provides optional OpenTelemetry integration for traces and metrics.
+`llamatelemetry.telemetry` integrates OpenTelemetry tracing and metrics with GPU-aware resource attributes. It can also export trace graphs to Graphistry.
 
-## Setup
+## What you get
+
+- Tracing spans for inference workflows
+- GPU metrics and llama.cpp `/metrics` gauges
+- OTLP export (gRPC/HTTP)
+- Optional Graphistry trace visualization
+
+## Basic setup
 
 ```python
 from llamatelemetry.telemetry import setup_telemetry
 
 tracer, meter = setup_telemetry(
-    service_name="llamatelemetry-inference",
+    service_name="llamatelemetry-demo",
     service_version="0.1.0",
     otlp_endpoint="http://localhost:4317",
-    enable_graphistry=False,
+    enable_llama_metrics=True,
+    llama_metrics_interval=5.0,
 )
 ```
 
-## Enable through `InferenceEngine`
+## Using with InferenceEngine
 
 ```python
-from llamatelemetry import InferenceEngine
+import llamatelemetry as lt
 
-engine = InferenceEngine(
+engine = lt.InferenceEngine(
     enable_telemetry=True,
     telemetry_config={
-        "service_name": "my-llm-service",
-        "service_version": "0.1.0",
+        "service_name": "llamatelemetry-demo",
         "otlp_endpoint": "http://localhost:4317",
+        "enable_llama_metrics": True,
     },
 )
 ```
 
-## What is collected
+## Graphistry export
 
-- Request-level inference span attributes
-- Latency and token metrics
-- Optional GPU resource metadata
-- Optional export via OTLP and Graphistry adapters
+```python
+tracer, meter = setup_telemetry(
+    service_name="llamatelemetry-graphistry",
+    enable_graphistry=True,
+    graphistry_server="https://hub.graphistry.com",
+)
+```
 
-## Auto instrumentation helpers
+## Kaggle secrets helper
 
-From `llamatelemetry.telemetry.auto_instrument`:
+```python
+from llamatelemetry.telemetry import setup_otlp_env_from_kaggle_secrets
 
-- `instrument_inference`
-- `inference_span`
-- `batch_inference_span`
-- `create_llm_attributes`
+setup_otlp_env_from_kaggle_secrets(
+    endpoint_key="OTLP_ENDPOINT",
+    token_key="OTLP_TOKEN",
+)
+```
 
-From `llamatelemetry.telemetry.instrumentor`:
+## Related reference
 
-- `instrument_llamacpp_client`
-- `uninstrument_llamacpp_client`
-
-## Performance monitor
-
-`PerformanceMonitor` offers polling-oriented runtime monitoring with snapshots and records.
-
-## Production notes
-
-- Keep telemetry optional in latency-sensitive inference paths.
-- Validate exporter availability at startup.
-- Test endpoint and credential configuration in staging before production deployment.
+- [Telemetry API](../reference/telemetry-api.md)
+- [Graphistry API](../reference/graphistry-api.md)

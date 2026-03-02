@@ -1,66 +1,35 @@
-# Multi-GPU and NCCL API Reference
+# Multi-GPU and NCCL
 
-## Module: `llamatelemetry.api.multigpu`
+## Multi-GPU configuration
 
-## Types
+`llamatelemetry.api.multigpu` provides helpers for device discovery, split modes, and recommended settings.
 
-- `SplitMode`
-- `GPUInfo`
-- `MultiGPUConfig`
+Key classes:
 
-## Hardware detection and planning
+- `GPUInfo` — device properties
+- `MultiGPUConfig` — config container
+- `SplitMode` — enum for split strategies
 
-- `detect_gpus()`
-- `get_cuda_version()`
-- `get_total_vram()`
-- `get_free_vram()`
-- `is_multi_gpu()`
-- `gpu_count()`
-- `estimate_model_vram(...)`
-- `can_fit_model(...)`
-- `recommend_quantization(...)`
+Key functions:
 
-## Preset helpers
+- `detect_gpus()` / `gpu_count()`
+- `get_total_vram()` / `get_free_vram()`
+- `kaggle_t4_dual_config()` / `colab_t4_single_config()`
+- `auto_config()` — automatic split and layer estimates
+- `recommend_quantization()` / `estimate_model_vram()`
 
-- `kaggle_t4_dual_config(model_size_gb=7.0)`
-- `colab_t4_single_config()`
-- `auto_config()`
+## NCCL integration
 
-## Environment controls
+`llamatelemetry.api.nccl` provides lightweight NCCL discovery and environment helpers.
 
-- `set_cuda_visible_devices(*device_ids)`
-- `get_cuda_visible_devices()`
-- `print_gpu_info()`
+Key functions:
 
----
-
-## Module: `llamatelemetry.api.nccl`
-
-## Types
-
-- `NCCLResult`
-- `NCCLDataType`
-- `NCCLRedOp`
-- `NCCLConfig`
-- `NCCLInfo`
-- `NCCLCommunicator`
-
-## Functions
-
-- `is_nccl_available()`
-- `get_nccl_version()`
-- `get_nccl_info()`
-- `setup_nccl_environment(...)`
+- `is_nccl_available()` / `get_nccl_version()`
+- `get_nccl_info()` / `print_nccl_info()`
+- `setup_nccl_environment()`
 - `kaggle_nccl_config()`
-- `print_nccl_info()`
-- `get_llama_cpp_nccl_args(...)`
 
-## Example
+## Related docs
 
-```python
-from llamatelemetry.api import auto_config, get_nccl_info
-
-cfg = auto_config()
-print(cfg)
-print(get_nccl_info())
-```
+- [CUDA and Inference API](cuda-inference-api.md)
+- [Kaggle API](kaggle-api.md)
