@@ -7,7 +7,7 @@ For the authoritative source-level changelog see the GitHub repository:
 
 ---
 
-## v0.1.0 — 2026-02-02
+## v0.1.1 — 2026-02-02
 
 Initial public release of the `llamatelemetry` Python SDK. This release establishes the full foundation: a CUDA-first OpenTelemetry SDK for LLM inference observability using llama.cpp as the backend.
 
@@ -274,7 +274,7 @@ Initial public release of the `llamatelemetry` Python SDK. This release establis
 
 | # | Notebook | Track |
 |---|----------|-------|
-| 01 | Quickstart — llamatelemetry v0.1.0 | Foundation |
+| 01 | Quickstart — llamatelemetry v0.1.1 | Foundation |
 | 02 | llama-server setup | Foundation |
 | 03 | Multi-GPU inference | Foundation |
 | 04 | GGUF quantization | Foundation |
@@ -322,7 +322,7 @@ Initial public release of the `llamatelemetry` Python SDK. This release establis
 
 ---
 
-### Dependencies (v0.1.0)
+### Dependencies (v0.1.1)
 
 **Core (always installed):**
 

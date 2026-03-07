@@ -4,7 +4,7 @@
 
 ---
 
-`llamatelemetry` is a comprehensive Python SDK (v0.1.0) that wraps `llama.cpp` with a high-level inference API, robust server lifecycle management, OpenTelemetry instrumentation, Kaggle-optimized presets, and GPU-accelerated graph analytics. It is designed for researchers and engineers who need production-grade LLM inference observability on NVIDIA GPUs.
+`llamatelemetry` is a comprehensive Python SDK (v0.1.1) that wraps `llama.cpp` with a high-level inference API, robust server lifecycle management, OpenTelemetry instrumentation, Kaggle-optimized presets, and GPU-accelerated graph analytics. It is designed for researchers and engineers who need production-grade LLM inference observability on NVIDIA GPUs.
 
 ## Key Features
 
@@ -69,7 +69,7 @@ load_grafana_otlp_env_from_kaggle()
 manager = start_server_from_preset("/kaggle/input/model/model.gguf", ServerPreset.KAGGLE_DUAL_T4)
 
 cfg = KagglePipelineConfig(enable_llama_metrics=True)
-ctx = setup_otel_and_client("http://127.0.0.1:8080", cfg)
+ctx = setup_otel_and_client("http://127.0.0.1:8090", cfg)
 client = ctx["client"]
 
 resp = client.chat_completions({
@@ -133,5 +133,5 @@ MIT License. Copyright 2024 Waqas Muhammad.
 ## Links
 
 - **GitHub:** [llamatelemetry/llamatelemetry](https://github.com/llamatelemetry/llamatelemetry)
-- **PyPI:** `pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0`
+- **PyPI:** `pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1`
 - **Notebooks:** [18 Kaggle notebooks](notebooks/index.md)

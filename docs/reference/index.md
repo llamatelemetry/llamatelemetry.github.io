@@ -1,6 +1,6 @@
 # API Reference
 
-Complete API reference for the `llamatelemetry` Python SDK v0.1.0. This section documents
+Complete API reference for the `llamatelemetry` Python SDK v0.1.1. This section documents
 every public class, function, dataclass, and enum across all 10 modules.
 
 ## Module Map
@@ -96,4 +96,4 @@ every public class, function, dataclass, and enum across all 10 modules.
 
 ## Version
 
-This reference documents `llamatelemetry` **v0.1.0** (released 2026-02-02).
+This reference documents `llamatelemetry` **v0.1.1** (released 2026-02-02).

@@ -36,7 +36,7 @@ Combine llama.cpp inference, OTLP telemetry, and W&B experiment tracking.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 !pip -q install wandb
 ```
 
@@ -87,7 +87,7 @@ run = wandb.init(
     name='kaggle-llama.cpp-e2',
     reinit=True,
     config={
-        'sdk_version': '0.1.0',
+        'sdk_version': '0.1.1',
         'preset': 'KAGGLE_DUAL_T4',
     },
 )
@@ -134,7 +134,7 @@ cfg = KagglePipelineConfig(
     enable_graphistry=False,
     enable_llama_metrics=True,
 )
-ctx = setup_otel_and_client('http://127.0.0.1:8080', cfg)
+ctx = setup_otel_and_client('http://127.0.0.1:8090', cfg)
 client = ctx['client']
 print(f"Pipeline keys: {list(ctx.keys())}")
 ```

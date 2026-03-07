@@ -71,7 +71,7 @@ pip install ipywidgets
 
 ```bash
 python -c "import llamatelemetry; print(llamatelemetry.__version__)"
-# Expected: 0.1.0
+# Expected: 0.1.1
 ```
 
 ---

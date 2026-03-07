@@ -1,6 +1,6 @@
 # 07 Knowledge Graph Extraction
 
-Source: `notebooks/07-knowledge-graph-extraction-graphistry-v0-1-0-e1.ipynb`
+Source: `notebooks/07-knowledge-graph-extraction-graphistry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -34,7 +34,7 @@ Build knowledge graphs from structured entity/relationship data using
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)

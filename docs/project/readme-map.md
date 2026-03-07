@@ -231,7 +231,7 @@ widget.display()
 **README summarizes the current version.**
 
 **Docs expand to:**
-- [Changelog](changelog.md) — full annotated changelog for v0.1.0 covering all 10 modules, 18 notebooks, and the test suite
+- [Changelog](changelog.md) — full annotated changelog for v0.1.1 covering all 10 modules, 18 notebooks, and the test suite
 
 ---
 

@@ -35,7 +35,7 @@ engine = lt.InferenceEngine(
 | `telemetry_config` | `dict` or `None` | `None` | Configuration dict passed to `setup_telemetry()` |
 
 !!! note "Port Convention"
-    `InferenceEngine` and `ServerManager` both default to port **8090**. The lower-level `LlamaCppClient` defaults to **8080**. When combining them manually, ensure ports match.
+    `InferenceEngine` and `ServerManager` both default to port **8090**. The lower-level `LlamaCppClient` defaults to **8090**. When combining them manually, ensure ports match.
 
 ## Using as a Context Manager
 
@@ -250,7 +250,7 @@ engine = lt.InferenceEngine(
     enable_telemetry=True,
     telemetry_config={
         "service_name": "my-llm-service",
-        "service_version": "0.1.0",
+        "service_version": "0.1.1",
         "otlp_endpoint": "http://localhost:4317",
         "enable_llama_metrics": True,
         "llama_metrics_interval": 5.0,

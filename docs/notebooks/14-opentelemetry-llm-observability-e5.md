@@ -36,7 +36,7 @@ Grafana Cloud OTLP endpoint for remote export.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)
@@ -57,8 +57,8 @@ from llamatelemetry.telemetry import setup_grafana_otlp
 
 tracer, meter = setup_grafana_otlp(
     service_name="llamatelemetry",
-    service_version="0.1.0",
-    llama_server_url="http://127.0.0.1:8080",
+    service_version="0.1.1",
+    llama_server_url="http://127.0.0.1:8090",
     enable_llama_metrics=True,
 )
 print(f"Tracer: {tracer}")
@@ -81,7 +81,7 @@ which accepts a payload dict.
 ```python
 from llamatelemetry.telemetry.client import InstrumentedLlamaCppClient
 
-client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8080")
+client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8090")
 ```
 
 ### Cell 8 (Markdown)

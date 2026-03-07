@@ -1,6 +1,6 @@
 # 04 GGUF Quantization and Suitability
 
-Source: `notebooks/04-gguf-quantization-llamatelemetry-v0-1-0-e1.ipynb`
+Source: `notebooks/04-gguf-quantization-llamatelemetry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -35,7 +35,7 @@ quantization matrix.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)

@@ -34,25 +34,25 @@ Repository link:
 
 ## Notebook list
 
-1. `01-quickstart-llamatelemetry-v0-1-0-e1.ipynb` - [01-quickstart-llamatelemetry-v0-1-0-e1](./01-quickstart-llamatelemetry-v0-1-0-e1.md)
+1. `01-quickstart-llamatelemetry-v0-1-1-e1.ipynb` - [01-quickstart-llamatelemetry-v0-1-1-e1](./01-quickstart-llamatelemetry-v0-1-1-e1.md)
 
-2. `02-llama-server-setup-llamatelemetry-v0-1-0-e1.ipynb` - [02-llama-server-setup-llamatelemetry-v0-1-0-e1](./02-llama-server-setup-llamatelemetry-v0-1-0-e1.md)
+2. `02-llama-server-setup-llamatelemetry-v0-1-1-e1.ipynb` - [02-llama-server-setup-llamatelemetry-v0-1-1-e1](./02-llama-server-setup-llamatelemetry-v0-1-1-e1.md)
 
-3. `03-multi-gpu-inference-llamatelemetry-v0-1-0-e1.ipynb` - [03-multi-gpu-inference-llamatelemetry-v0-1-0-e1](./03-multi-gpu-inference-llamatelemetry-v0-1-0-e1.md)
+3. `03-multi-gpu-inference-llamatelemetry-v0-1-1-e1.ipynb` - [03-multi-gpu-inference-llamatelemetry-v0-1-1-e1](./03-multi-gpu-inference-llamatelemetry-v0-1-1-e1.md)
 
-4. `04-gguf-quantization-llamatelemetry-v0-1-0-e1.ipynb` - [04-gguf-quantization-llamatelemetry-v0-1-0-e1](./04-gguf-quantization-llamatelemetry-v0-1-0-e1.md)
+4. `04-gguf-quantization-llamatelemetry-v0-1-1-e1.ipynb` - [04-gguf-quantization-llamatelemetry-v0-1-1-e1](./04-gguf-quantization-llamatelemetry-v0-1-1-e1.md)
 
-5. `05-unsloth-integration-llamatelemetry-v0-1-0-e1.ipynb` - [05-unsloth-integration-llamatelemetry-v0-1-0-e1](./05-unsloth-integration-llamatelemetry-v0-1-0-e1.md)
+5. `05-unsloth-integration-llamatelemetry-v0-1-1-e1.ipynb` - [05-unsloth-integration-llamatelemetry-v0-1-1-e1](./05-unsloth-integration-llamatelemetry-v0-1-1-e1.md)
 
-6. `06-split-gpu-graphistry-llamatelemetry-v0-1-0-e1.ipynb` - [06-split-gpu-graphistry-llamatelemetry-v0-1-0-e1](./06-split-gpu-graphistry-llamatelemetry-v0-1-0-e1.md)
+6. `06-split-gpu-graphistry-llamatelemetry-v0-1-1-e1.ipynb` - [06-split-gpu-graphistry-llamatelemetry-v0-1-1-e1](./06-split-gpu-graphistry-llamatelemetry-v0-1-1-e1.md)
 
-7. `07-knowledge-graph-extraction-graphistry-v0-1-0-e1.ipynb` - [07-knowledge-graph-extraction-graphistry-v0-1-0-e1](./07-knowledge-graph-extraction-graphistry-v0-1-0-e1.md)
+7. `07-knowledge-graph-extraction-graphistry-v0-1-1-e1.ipynb` - [07-knowledge-graph-extraction-graphistry-v0-1-1-e1](./07-knowledge-graph-extraction-graphistry-v0-1-1-e1.md)
 
 8. `08-document-network-analysis-graphistry-e1.ipynb` - [08-document-network-analysis-graphistry-e1](./08-document-network-analysis-graphistry-e1.md)
 
 9. `09-large-models-kaggle-llamatelemetry-e3.ipynb` - [09-large-models-kaggle-llamatelemetry-e3](./09-large-models-kaggle-llamatelemetry-e3.md)
 
-10. `10-complete-workflow-llamatelemetry-v0-1-0-e1.ipynb` - [10-complete-workflow-llamatelemetry-v0-1-0-e1](./10-complete-workflow-llamatelemetry-v0-1-0-e1.md)
+10. `10-complete-workflow-llamatelemetry-v0-1-1-e1.ipynb` - [10-complete-workflow-llamatelemetry-v0-1-1-e1](./10-complete-workflow-llamatelemetry-v0-1-1-e1.md)
 
 11. `17-llamatelemetry-wandb-kaggle-notebook-e2.ipynb` - [17-llamatelemetry-wandb-kaggle-notebook-e2](./17-llamatelemetry-wandb-kaggle-notebook-e2.md)
 

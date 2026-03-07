@@ -13,7 +13,7 @@ The `llamatelemetry.telemetry` package provides OpenTelemetry-based distributed 
 ```python
 def setup_telemetry(
     service_name: str = "llamatelemetry",
-    service_version: str = "0.1.0",
+    service_version: str = "0.1.1",
     otlp_endpoint: Optional[str] = None,
     otlp_headers: Optional[Dict[str, str]] = None,
     export_interval_ms: int = 5000,
@@ -31,7 +31,7 @@ Initialize the OpenTelemetry `TracerProvider` and `MeterProvider` for llamatelem
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `service_name` | `str` | `"llamatelemetry"` | OTel service name, appears in trace UIs |
-| `service_version` | `str` | `"0.1.0"` | Service version string |
+| `service_version` | `str` | `"0.1.1"` | Service version string |
 | `otlp_endpoint` | `Optional[str]` | `None` | OTLP HTTP endpoint URL (e.g., `"https://otlp.example.com/v1/traces"`). If `None`, telemetry is collected but not exported over network. |
 | `otlp_headers` | `Optional[Dict[str, str]]` | `None` | HTTP headers for authentication (e.g., `{"Authorization": "Bearer token"}`) |
 | `export_interval_ms` | `int` | `5000` | Metrics export interval in milliseconds |
@@ -159,7 +159,7 @@ from llamatelemetry.telemetry.tracer import InferenceTracerProvider
 
 provider = InferenceTracerProvider(
     service_name="llamatelemetry",
-    service_version="0.1.0",
+    service_version="0.1.1",
     resource_attributes={"deployment.environment": "kaggle"},
 )
 

@@ -266,7 +266,7 @@ from llamatelemetry.api import LlamaCppClient
 client = LlamaCppClient(base_url="http://127.0.0.1:8090")
 ```
 
-Note that `LlamaCppClient` defaults to port 8080, while `InferenceEngine` and
+Note that `LlamaCppClient` defaults to port 8090, while `InferenceEngine` and
 `ServerManager` default to port 8090. When using the client with an engine, pass
 the engine's server URL.
 

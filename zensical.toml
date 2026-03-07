@@ -1,6 +1,6 @@
 [project]
 site_name = "llamatelemetry Documentation"
-site_description = "Extensive documentation for llamatelemetry v0.1.0: inference, observability, Kaggle, GGUF, APIs, and notebooks."
+site_description = "Extensive documentation for llamatelemetry v0.1.1: inference, observability, Kaggle, GGUF, APIs, and notebooks."
 site_author = "llamatelemetry"
 site_url = "https://llamatelemetry.github.io/"
 repo_url = "https://github.com/llamatelemetry/llamatelemetry"

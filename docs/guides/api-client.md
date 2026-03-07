@@ -14,7 +14,7 @@ The client layer provides:
 - **Server management** endpoints (health, metrics, slots, models, LoRA)
 
 !!! warning "Port Mismatch"
-    `LlamaCppClient` defaults to port **8080**, while `ServerManager` and `InferenceEngine` default to port **8090**. When using `LlamaCppClient` with a llamatelemetry-managed server, always specify the correct port:
+    `LlamaCppClient` defaults to port **8090**, while `ServerManager` and `InferenceEngine` default to port **8090**. When using `LlamaCppClient` with a llamatelemetry-managed server, always specify the correct port:
     ```python
     client = LlamaCppClient(base_url="http://127.0.0.1:8090")
     ```
@@ -24,7 +24,7 @@ The client layer provides:
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-# Default -- port 8080 (llama.cpp default)
+# Default -- port 8090 (llama.cpp default)
 client = LlamaCppClient()
 
 # Matching llamatelemetry ServerManager port
@@ -270,7 +270,7 @@ except Exception as e:
 
 | Feature | `LlamaCppClient` | `InstrumentedLlamaCppClient` |
 |---------|-------------------|------------------------------|
-| Default port | 8080 | 8090 (via telemetry setup) |
+| Default port | 8090 | 8090 (via telemetry setup) |
 | Chat method | `chat_completion()` (singular) | `chat_completions()` (plural) |
 | OpenAI-style | `chat.completions.create()` | Not available |
 | Telemetry | No | Auto-creates OTel spans |

@@ -1,6 +1,6 @@
 # 10 Complete Workflow (Kaggle)
 
-Source: `notebooks/10-complete-workflow-llamatelemetry-v0-1-0-e1.ipynb`
+Source: `notebooks/10-complete-workflow-llamatelemetry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -35,7 +35,7 @@ instrumented client, and inference — all in one notebook.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)
@@ -99,7 +99,7 @@ cfg = KagglePipelineConfig(
     enable_llama_metrics=True,
 )
 
-ctx = setup_otel_and_client("http://127.0.0.1:8080", cfg)
+ctx = setup_otel_and_client("http://127.0.0.1:8090", cfg)
 client = ctx["client"]
 print(f"Pipeline context keys: {list(ctx.keys())}")
 ```

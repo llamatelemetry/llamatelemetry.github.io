@@ -1,6 +1,6 @@
-# 01 Quickstart: llamatelemetry v0.1.0
+# 01 Quickstart: llamatelemetry v0.1.1
 
-Source: `notebooks/01-quickstart-llamatelemetry-v0-1-0-e1.ipynb`
+Source: `notebooks/01-quickstart-llamatelemetry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -12,7 +12,7 @@ This page is a cell-by-cell walkthrough of the notebook, explaining the intent o
 
 ### Cell 1 (Markdown)
 
-# 01 Quickstart: llamatelemetry v0.1.0
+# 01 Quickstart: llamatelemetry v0.1.1
 
 Get up and running with GGUF inference on **Kaggle (dual T4)** in under 5 minutes.
 
@@ -35,7 +35,7 @@ Get up and running with GGUF inference on **Kaggle (dual T4)** in under 5 minute
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)

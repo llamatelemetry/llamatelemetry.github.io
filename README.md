@@ -1,6 +1,6 @@
 # llamatelemetry.github.io
 
-Documentation website source for `llamatelemetry v0.1.0`, built with Zensical and deployed through GitHub Pages.
+Documentation website source for `llamatelemetry v0.1.1`, built with Zensical and deployed through GitHub Pages.
 
 ## Repository purpose
 

@@ -1,6 +1,6 @@
 # Release Artifacts
 
-`llamatelemetry` v0.1.0 ships as both source archives and CUDA binary bundles.
+`llamatelemetry` v0.1.1 ships as both source archives and CUDA binary bundles.
 This page provides a complete breakdown of release contents, installation
 methods, and artifact usage.
 
@@ -10,7 +10,7 @@ methods, and artifact usage.
 
 | Property | Value |
 |----------|-------|
-| Version | v0.1.0 |
+| Version | v0.1.1 |
 | Release date | 2026-02-02 |
 | License | MIT |
 | Python | >= 3.11 |
@@ -25,7 +25,7 @@ methods, and artifact usage.
 ### From GitHub (recommended)
 
 ```bash
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### From Source
@@ -33,7 +33,7 @@ pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
 ```bash
 git clone https://github.com/llamatelemetry/llamatelemetry.git
 cd llamatelemetry
-git checkout v0.1.0
+git checkout v0.1.1
 pip install -e .
 ```
 
@@ -41,11 +41,11 @@ pip install -e .
 
 ```bash
 # Telemetry support
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0 \
+pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1 \
     opentelemetry-api opentelemetry-sdk opentelemetry-exporter-otlp
 
 # Graphistry support
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0 \
+pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1 \
     pygraphistry pandas
 
 # Full installation (all optional dependencies)
@@ -57,7 +57,7 @@ pip install -e ".[dev]"
 In a Kaggle notebook cell:
 
 ```python
-!pip install -q git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip install -q git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ---
@@ -66,13 +66,13 @@ In a Kaggle notebook cell:
 
 Files:
 
-- `llamatelemetry-v0.1.0-source.tar.gz`
-- `llamatelemetry-v0.1.0-source.zip`
+- `llamatelemetry-v0.1.1-source.tar.gz`
+- `llamatelemetry-v0.1.1-source.zip`
 
 Contents (top level):
 
 ```
-llamatelemetry-v0.1.0/
+llamatelemetry-v0.1.1/
   llamatelemetry/        Python package source (~40 files, 13K+ lines)
   csrc/                  C++/CUDA extension sources (7 files, ~650 lines)
   docs/                  MkDocs documentation content
@@ -94,7 +94,7 @@ These archives match the repository source tree exactly.
 
 File:
 
-- `llamatelemetry-v0.1.0-cuda12-kaggle-t4x2.tar.gz`
+- `llamatelemetry-v0.1.1-cuda12-kaggle-t4x2.tar.gz`
 
 This bundle contains pre-compiled CUDA 12 binaries targeting Tesla T4 GPUs
 (SM 7.5, compute capability 7.5). Total size is approximately 961 MB.
@@ -142,7 +142,7 @@ the binary bundle.
 ```
 import llamatelemetry
   --> Check for llama-server in llamatelemetry/binaries/cuda12/
-  --> If missing: download llamatelemetry-v0.1.0-cuda12-kaggle-t4x2.tar.gz
+  --> If missing: download llamatelemetry-v0.1.1-cuda12-kaggle-t4x2.tar.gz
   --> Extract to llamatelemetry/binaries/cuda12/
   --> Set LLAMA_SERVER_PATH environment variable
   --> Set LD_LIBRARY_PATH to include lib/ directory
@@ -152,8 +152,8 @@ The download URL is configured in `ServerManager._BINARY_BUNDLES` and points
 to the GitHub Releases page:
 
 ```
-https://github.com/llamatelemetry/llamatelemetry/releases/download/v0.1.0/
-    llamatelemetry-v0.1.0-cuda12-kaggle-t4x2.tar.gz
+https://github.com/llamatelemetry/llamatelemetry/releases/download/v0.1.1/
+    llamatelemetry-v0.1.1-cuda12-kaggle-t4x2.tar.gz
 ```
 
 ### Cache Locations
@@ -187,12 +187,12 @@ with HuggingFace repo references, filenames, sizes, and VRAM requirements.
 
 ## Checksums
 
-Each archive includes a `.sha256` file in `releases/v0.1.0/` for integrity
+Each archive includes a `.sha256` file in `releases/v0.1.1/` for integrity
 verification:
 
 ```bash
-sha256sum -c llamatelemetry-v0.1.0-cuda12-kaggle-t4x2.tar.gz.sha256
-sha256sum -c llamatelemetry-v0.1.0-source.tar.gz.sha256
+sha256sum -c llamatelemetry-v0.1.1-cuda12-kaggle-t4x2.tar.gz.sha256
+sha256sum -c llamatelemetry-v0.1.1-source.tar.gz.sha256
 ```
 
 ---
@@ -201,10 +201,10 @@ sha256sum -c llamatelemetry-v0.1.0-source.tar.gz.sha256
 
 ```
 releases/
-  v0.1.0/
-    llamatelemetry-v0.1.0-source.tar.gz
-    llamatelemetry-v0.1.0-source.zip
-    llamatelemetry-v0.1.0-cuda12-kaggle-t4x2.tar.gz
+  v0.1.1/
+    llamatelemetry-v0.1.1-source.tar.gz
+    llamatelemetry-v0.1.1-source.zip
+    llamatelemetry-v0.1.1-cuda12-kaggle-t4x2.tar.gz
     *.sha256 checksum files
   v1.2.0/
     Binary archive + CUDA tar.gz (future release)

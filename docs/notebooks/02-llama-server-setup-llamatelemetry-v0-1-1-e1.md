@@ -1,6 +1,6 @@
 # 02 llama-server Setup and Introspection
 
-Source: `notebooks/02-llama-server-setup-llamatelemetry-v0-1-0-e1.ipynb`
+Source: `notebooks/02-llama-server-setup-llamatelemetry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -36,7 +36,7 @@ uploaded as a Kaggle dataset.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)

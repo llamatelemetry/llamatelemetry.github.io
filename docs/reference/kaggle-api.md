@@ -224,8 +224,8 @@ Dataclass holding all server configuration values for a preset.
 @dataclass
 class PresetConfig:
     name: str
-    server_url: str = "http://127.0.0.1:8080"
-    port: int = 8080
+    server_url: str = "http://127.0.0.1:8090"
+    port: int = 8090
     host: str = "127.0.0.1"
     gpu_layers: int = 99
     tensor_split: Optional[List[float]] = None
@@ -479,7 +479,7 @@ Dataclass for end-to-end pipeline configuration.
 @dataclass
 class KagglePipelineConfig:
     service_name: str = "llamatelemetry"
-    service_version: str = "0.1.0"
+    service_version: str = "0.1.1"
     otlp_endpoint: Optional[str] = None
     enable_graphistry: bool = False
     graphistry_server: Optional[str] = None
@@ -529,7 +529,7 @@ def start_server_from_preset(
 
 ```python
 mgr = start_server_from_preset("/path/to/model.gguf", ServerPreset.KAGGLE_DUAL_T4)
-# Server is running and ready at http://127.0.0.1:8080
+# Server is running and ready at http://127.0.0.1:8090
 ```
 
 ---
@@ -545,14 +545,14 @@ def setup_otel_and_client(
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `base_url` | `str` | -- | llama-server base URL (e.g., `"http://127.0.0.1:8080"`) |
+| `base_url` | `str` | -- | llama-server base URL (e.g., `"http://127.0.0.1:8090"`) |
 | `cfg` | `KagglePipelineConfig` | -- | Pipeline configuration |
 
 **Returns:** Dict with keys `"tracer"`, `"meter"`, `"client"` (InstrumentedLlamaCppClient), `"gpu_metrics"`.
 
 ```python
 cfg = KagglePipelineConfig(otlp_endpoint="https://otlp.grafana.net/otlp")
-resources = setup_otel_and_client("http://127.0.0.1:8080", cfg)
+resources = setup_otel_and_client("http://127.0.0.1:8090", cfg)
 client = resources["client"]
 response = client.chat_completion(messages=[{"role": "user", "content": "Hello"}])
 ```

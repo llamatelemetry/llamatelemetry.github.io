@@ -169,9 +169,9 @@ This guide covers common issues you may encounter when installing, configuring, 
   engine = InferenceEngine()
   engine.load_model("model.gguf", auto_start=True, n_gpu_layers=0)  # CPU only first
   ```
-- Check if another process is using the default port (8080):
+- Check if another process is using the default port (8090):
   ```bash
-  lsof -i :8080
+  lsof -i :8090
   ```
   Use a different port if needed:
   ```python
@@ -188,7 +188,7 @@ This guide covers common issues you may encounter when installing, configuring, 
 - Check server health:
   ```python
   import requests
-  response = requests.get("http://localhost:8080/health")
+  response = requests.get("http://localhost:8090/health")
   print(response.json())
   ```
 - Ensure the model format is correct (must be GGUF)

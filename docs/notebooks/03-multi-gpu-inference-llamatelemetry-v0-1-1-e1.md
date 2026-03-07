@@ -1,6 +1,6 @@
 # 03 Multi-GPU Inference (Dual T4)
 
-Source: `notebooks/03-multi-gpu-inference-llamatelemetry-v0-1-0-e1.ipynb`
+Source: `notebooks/03-multi-gpu-inference-llamatelemetry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -35,7 +35,7 @@ Configure layer-split and row-split inference across two GPUs using
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)

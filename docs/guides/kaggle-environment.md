@@ -214,7 +214,7 @@ With layer splitting across two GPUs, larger models become feasible:
 
 ```python
 # Cell 1: Install
-# !pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+# !pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 
 # Cell 2: Setup
 import llamatelemetry as lt

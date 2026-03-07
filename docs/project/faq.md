@@ -37,7 +37,7 @@ Windows support is limited. The auto-downloaded llama-server binary is Linux-onl
 
 ### Does it run on macOS?
 
-macOS is not a supported target. llamatelemetry is optimized for NVIDIA CUDA; Apple Silicon (MLX/Metal) is out of scope for v0.1.0.
+macOS is not a supported target. llamatelemetry is optimized for NVIDIA CUDA; Apple Silicon (MLX/Metal) is out of scope for v0.1.1.
 
 ### Does it run without a GPU?
 

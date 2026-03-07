@@ -29,7 +29,7 @@ notebook clean:
 
 ```python
 !pip -q install --no-cache-dir --force-reinstall \
-  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 For optional dependencies needed by specific workflows:
@@ -398,7 +398,7 @@ workflow:
 
 ```python
 !pip -q install --no-cache-dir --force-reinstall \
-  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 !pip -q install opentelemetry-exporter-otlp-proto-http
 ```
 
@@ -481,11 +481,11 @@ print("Inference complete. Review metrics in your OTLP backend if telemetry was 
 
 For deeper Kaggle workflows, explore these production-tested notebooks:
 
-- [01 Quickstart](../notebooks/01-quickstart-llamatelemetry-v0-1-0-e1.md) --
+- [01 Quickstart](../notebooks/01-quickstart-llamatelemetry-v0-1-1-e1.md) --
   Foundation setup and first inference.
-- [03 Multi-GPU Inference](../notebooks/03-multi-gpu-inference-llamatelemetry-v0-1-0-e1.md) --
+- [03 Multi-GPU Inference](../notebooks/03-multi-gpu-inference-llamatelemetry-v0-1-1-e1.md) --
   Dual-T4 layer splitting and multi-GPU configurations.
-- [06 Split-GPU Graphistry](../notebooks/06-split-gpu-graphistry-llamatelemetry-v0-1-0-e1.md) --
+- [06 Split-GPU Graphistry](../notebooks/06-split-gpu-graphistry-llamatelemetry-v0-1-1-e1.md) --
   LLM on GPU 0, graph visualization on GPU 1.
 - [09 Large Models Kaggle](../notebooks/09-large-models-kaggle-llamatelemetry-e3.md) --
   Running 70B models on dual T4 with aggressive quantization.

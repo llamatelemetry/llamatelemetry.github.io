@@ -1,6 +1,6 @@
 # 05 Unsloth Integration
 
-Source: `notebooks/05-unsloth-integration-llamatelemetry-v0-1-0-e1.ipynb`
+Source: `notebooks/05-unsloth-integration-llamatelemetry-v0-1-1-e1.ipynb`
 
 
 ## Notebook focus
@@ -35,7 +35,7 @@ dataset and additional setup.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 # Unsloth must be installed separately:
 # !pip -q install unsloth
 ```

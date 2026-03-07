@@ -73,17 +73,17 @@ CPU-only experimentation.
 
 ## Install from GitHub (recommended)
 
-The simplest installation pulls the tagged v0.1.0 release directly from GitHub:
+The simplest installation pulls the tagged v0.1.1 release directly from GitHub:
 
 ```bash
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 For a completely clean install that avoids cached wheels:
 
 ```bash
 pip install --no-cache-dir --force-reinstall \
-  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 This installs the core package and all required dependencies (`numpy`,
@@ -98,7 +98,7 @@ conflicts:
 python3.11 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ---
@@ -110,7 +110,7 @@ Clone the repository and install in editable mode for development:
 ```bash
 git clone https://github.com/llamatelemetry/llamatelemetry.git
 cd llamatelemetry
-git checkout v0.1.0   # or main for latest
+git checkout v0.1.1   # or main for latest
 
 pip install -e ".[dev]"
 ```
@@ -151,7 +151,7 @@ Required for exporting traces and metrics to Grafana Cloud, Jaeger, or any
 OTLP-compatible backend:
 
 ```bash
-pip install "llamatelemetry[telemetry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0"
+pip install "llamatelemetry[telemetry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
 This adds `opentelemetry-exporter-otlp-proto-http` and
@@ -162,7 +162,7 @@ This adds `opentelemetry-exporter-otlp-proto-http` and
 For graph visualization and GPU-accelerated graph analytics:
 
 ```bash
-pip install "llamatelemetry[graphistry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0"
+pip install "llamatelemetry[graphistry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
 This adds `pygraphistry` and `pandas`.
@@ -172,7 +172,7 @@ This adds `pygraphistry` and `pandas`.
 For notebook widgets and interactive visualization:
 
 ```bash
-pip install "llamatelemetry[jupyter] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0"
+pip install "llamatelemetry[jupyter] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
 This adds `ipywidgets` and related display utilities.
@@ -190,7 +190,7 @@ pip install wandb           # for Weights & Biases logging
 ### All optional dependencies at once
 
 ```bash
-pip install "llamatelemetry[telemetry,graphistry,jupyter,dev] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0"
+pip install "llamatelemetry[telemetry,graphistry,jupyter,dev] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 pip install torch pynvml sseclient-py wandb
 ```
 
@@ -204,7 +204,7 @@ After installing, verify that the package loads and CUDA is visible:
 import llamatelemetry as lt
 
 # Check version
-print(f"llamatelemetry version: {lt.__version__}")  # expected: 0.1.0
+print(f"llamatelemetry version: {lt.__version__}")  # expected: 0.1.1
 
 # Check CUDA
 cuda_info = lt.detect_cuda()
@@ -221,7 +221,7 @@ for gpu in cuda_info["gpus"]:
 Expected output on a Tesla T4 system:
 
 ```
-llamatelemetry version: 0.1.0
+llamatelemetry version: 0.1.1
 CUDA available: True
 CUDA version:   12.2
   GPU: Tesla T4
@@ -303,7 +303,7 @@ RUN python3.11 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 RUN pip install --no-cache-dir \
-    git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+    git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 
 # Pre-run bootstrap to cache binaries in the image
 RUN python -c "import llamatelemetry"
@@ -315,8 +315,8 @@ CMD ["python3.11"]
 Build and run with GPU access:
 
 ```bash
-docker build -t llamatelemetry:v0.1.0 .
-docker run --gpus all -it llamatelemetry:v0.1.0
+docker build -t llamatelemetry:v0.1.1 .
+docker run --gpus all -it llamatelemetry:v0.1.1
 ```
 
 The `--gpus all` flag requires the

@@ -34,7 +34,7 @@ pipeline helpers.
 
 
 ```python
-!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+!pip -q install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
 ### Cell 4 (Markdown)
@@ -60,7 +60,7 @@ from llamatelemetry.kaggle import ServerPreset
 
 cfg = KagglePipelineConfig(
     service_name="llamatelemetry-prod",
-    service_version="0.1.0",
+    service_version="0.1.1",
     enable_graphistry=False,
     enable_llama_metrics=True,
 )
@@ -106,7 +106,7 @@ print(f"Server healthy: {manager.check_server_health()}")
 
 
 ```python
-ctx = setup_otel_and_client("http://127.0.0.1:8080", cfg)
+ctx = setup_otel_and_client("http://127.0.0.1:8090", cfg)
 client = ctx["client"]
 print(f"Pipeline keys: {list(ctx.keys())}")
 ```

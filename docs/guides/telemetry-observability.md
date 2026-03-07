@@ -42,7 +42,7 @@ from llamatelemetry.telemetry import setup_telemetry
 
 tracer, meter = setup_telemetry(
     service_name="my-llm-service",
-    service_version="0.1.0",
+    service_version="0.1.1",
     otlp_endpoint="http://localhost:4317",
     enable_llama_metrics=True,
     llama_metrics_interval=5.0,
@@ -54,7 +54,7 @@ tracer, meter = setup_telemetry(
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `service_name` | `str` | `"llamatelemetry"` | OpenTelemetry service name |
-| `service_version` | `str` | `"0.1.0"` | Service version tag |
+| `service_version` | `str` | `"0.1.1"` | Service version tag |
 | `otlp_endpoint` | `str` | `None` | OTLP collector endpoint |
 | `otlp_protocol` | `str` | `"grpc"` | Protocol: `"grpc"` or `"http"` |
 | `otlp_headers` | `dict` | `None` | Authentication headers |
@@ -291,7 +291,7 @@ from llamatelemetry.telemetry import (
 # 1. Initialize telemetry
 tracer, meter = setup_telemetry(
     service_name="demo-service",
-    service_version="0.1.0",
+    service_version="0.1.1",
     otlp_endpoint="http://localhost:4317",
     enable_llama_metrics=True,
 )

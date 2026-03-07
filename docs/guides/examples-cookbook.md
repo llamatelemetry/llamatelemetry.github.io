@@ -143,7 +143,7 @@ os.environ["OTEL_EXPORTER_OTLP_HEADERS"] = "Authorization=Basic <credentials>"
 # Initialize telemetry
 tracer, meter = setup_telemetry(
     service_name="cookbook-demo",
-    service_version="0.1.0",
+    service_version="0.1.1",
     otlp_endpoint=os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"],
     enable_llama_metrics=True,
     llama_metrics_interval=5.0,
@@ -330,7 +330,7 @@ End-to-end pipeline for a Kaggle notebook with dual T4 GPUs:
 
 ```python
 # Cell 1: Install (run once)
-# !pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.0
+# !pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 
 # Cell 2: Full pipeline
 import llamatelemetry as lt
