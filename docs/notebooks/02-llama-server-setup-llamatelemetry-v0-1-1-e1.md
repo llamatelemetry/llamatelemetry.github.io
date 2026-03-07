@@ -43,7 +43,7 @@ uploaded as a Kaggle dataset.
 
 ## 2) Create a ServerManager
 
-`ServerManager` defaults to `http://127.0.0.1:8090`. You can override the
+`ServerManager` defaults to `http://127.0.0.1:8080`. You can override the
 port by passing a different `server_url`.
 
 ### Cell 5 (Code)
@@ -54,7 +54,7 @@ port by passing a different `server_url`.
 ```python
 from llamatelemetry.server import ServerManager
 
-manager = ServerManager(server_url="http://127.0.0.1:8090")
+manager = ServerManager(server_url="http://127.0.0.1:8080")
 
 # Point this to your uploaded GGUF dataset
 model_path = "/kaggle/input/your-model/model.gguf"

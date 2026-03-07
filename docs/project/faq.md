@@ -397,7 +397,7 @@ The llama-server process failed to start. Common causes:
 - The GGUF model file is corrupted or truncated — re-download it
 - Not enough VRAM — reduce `gpu_layers` or use a smaller quantization
 - Binary incompatibility — download the CUDA 12.x binary for your GPU architecture
-- Port conflict — another process is using port 8090. Change it with `server_url="http://127.0.0.1:8091"`
+- Port conflict — another process is using port 8080. Change it with `server_url="http://127.0.0.1:8091"`
 
 ### `OutOfMemoryError` or server crashes after loading
 

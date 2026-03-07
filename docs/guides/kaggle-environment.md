@@ -162,7 +162,7 @@ from llamatelemetry.kaggle.pipeline import setup_otel_and_client
 
 tracer, meter, client = setup_otel_and_client(
     service_name="kaggle-demo",
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
 )
 
 # Client is already instrumented with telemetry
@@ -238,7 +238,7 @@ load_grafana_otlp_env_from_kaggle()
 with split_gpu_session(llm_gpu=0, graph_gpu=1):
     # Create engine with telemetry
     engine = lt.InferenceEngine(
-        server_url="http://127.0.0.1:8090",
+        server_url="http://127.0.0.1:8080",
         enable_telemetry=True,
         telemetry_config={
             "service_name": "kaggle-llm-demo",

@@ -134,7 +134,7 @@ Once the server is running, create an `InferenceEngine` and run inference:
 
 ```python
 engine = lt.InferenceEngine(
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
     enable_telemetry=False,
 )
 
@@ -291,7 +291,7 @@ server = start_server_from_preset(
 # Step 3: Initialize OTEL and create an instrumented client
 otel_client = setup_otel_and_client(
     service_name="kaggle-observability-demo",
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
 )
 
 # Now all requests through otel_client emit traces and metrics

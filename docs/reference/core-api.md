@@ -16,7 +16,7 @@ High-level Python interface for LLM inference with CUDA acceleration. Manages se
 class InferenceEngine:
     def __init__(
         self,
-        server_url: str = "http://127.0.0.1:8090",
+        server_url: str = "http://127.0.0.1:8080",
         enable_telemetry: bool = False,
         telemetry_config: Optional[Dict[str, Any]] = None,
     )
@@ -24,7 +24,7 @@ class InferenceEngine:
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `server_url` | `str` | `"http://127.0.0.1:8090"` | URL of the llama-server backend |
+| `server_url` | `str` | `"http://127.0.0.1:8080"` | URL of the llama-server backend |
 | `enable_telemetry` | `bool` | `False` | Enable OpenTelemetry tracing and metrics |
 | `telemetry_config` | `Optional[Dict[str, Any]]` | `None` | Telemetry configuration dictionary (keys: `service_name`, `service_version`, `otlp_endpoint`, `enable_graphistry`, `graphistry_server`, `enable_llama_metrics`, `llama_metrics_interval`) |
 
@@ -308,7 +308,7 @@ def quick_infer(
     prompt: str,
     model_path: Optional[str] = None,
     max_tokens: int = 128,
-    server_url: str = "http://127.0.0.1:8090",
+    server_url: str = "http://127.0.0.1:8080",
     auto_start: bool = True,
 ) -> str
 ```
@@ -320,7 +320,7 @@ One-shot inference with minimal setup. Creates a temporary `InferenceEngine`, lo
 | `prompt` | `str` | *required* | Input prompt |
 | `model_path` | `Optional[str]` | `None` | Path to GGUF model (required if `auto_start=True`) |
 | `max_tokens` | `int` | `128` | Maximum tokens to generate |
-| `server_url` | `str` | `"http://127.0.0.1:8090"` | llama-server URL |
+| `server_url` | `str` | `"http://127.0.0.1:8080"` | llama-server URL |
 | `auto_start` | `bool` | `True` | Automatically start server if needed |
 
 **Returns:** Generated text string, or an error message string on failure.

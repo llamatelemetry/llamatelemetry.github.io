@@ -40,7 +40,7 @@ client = LouieClient()
 # Custom model and server
 client = LouieClient(
     model="gemma-3-1b-Q4_K_M",
-    server_url="http://localhost:8090",
+    server_url="http://localhost:8080",
     use_local_llm=True,
     graphistry_username="your_username",
     graphistry_password="your_password",
@@ -224,7 +224,7 @@ kg = extractor.extract("NVIDIA created CUDA. TensorFlow uses CUDA for GPU accele
 Point the extractor at a running llama-server instead of loading a local model:
 
 ```python
-extractor = KnowledgeExtractor(server_url="http://localhost:8090")
+extractor = KnowledgeExtractor(server_url="http://localhost:8080")
 kg = extractor.extract("Your text here...")
 ```
 

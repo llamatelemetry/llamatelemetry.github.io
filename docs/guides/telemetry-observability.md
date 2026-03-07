@@ -72,7 +72,7 @@ The simplest integration path is through `InferenceEngine`:
 import llamatelemetry as lt
 
 engine = lt.InferenceEngine(
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
     enable_telemetry=True,
     telemetry_config={
         "service_name": "my-inference-service",
@@ -103,7 +103,7 @@ tracer, meter = setup_telemetry(
 )
 
 # Create instrumented client
-client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8090")
+client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Every call creates an OpenTelemetry span automatically
 response = client.chat_completions({
@@ -297,7 +297,7 @@ tracer, meter = setup_telemetry(
 )
 
 # 2. Create instrumented client
-client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8090")
+client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # 3. Start performance monitor
 monitor = PerformanceMonitor()

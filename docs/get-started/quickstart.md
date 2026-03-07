@@ -49,13 +49,13 @@ lifecycle and exposes inference methods:
 
 ```python
 engine = lt.InferenceEngine(
-    server_url="http://127.0.0.1:8090",  # default server address
+    server_url="http://127.0.0.1:8080",  # default server address
     enable_telemetry=False,               # disable OTEL for now
 )
 ```
 
 The `server_url` parameter sets the address the engine uses to communicate with
-the llama-server process. Port 8090 is the default. To enable OpenTelemetry
+the llama-server process. Port 8080 is the default. To enable OpenTelemetry
 tracing and metrics, set `enable_telemetry=True` and provide a
 `telemetry_config` dictionary (covered in the
 [Telemetry Guide](../guides/telemetry-observability.md)).
@@ -263,11 +263,11 @@ exposes the OpenAI-compatible endpoints as well as native llama.cpp endpoints:
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 ```
 
-Note that `LlamaCppClient` defaults to port 8090, while `InferenceEngine` and
-`ServerManager` default to port 8090. When using the client with an engine, pass
+Note that `LlamaCppClient` defaults to port 8080, while `InferenceEngine` and
+`ServerManager` default to port 8080. When using the client with an engine, pass
 the engine's server URL.
 
 ### Chat completions
@@ -336,7 +336,7 @@ For token-by-token output, use the streaming mode through the client:
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Streaming chat completions
 for chunk in client.chat_completions(

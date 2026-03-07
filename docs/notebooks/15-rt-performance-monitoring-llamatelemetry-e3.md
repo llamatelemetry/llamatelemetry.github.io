@@ -137,7 +137,7 @@ monitor.print_summary()
 
 
 ```python
-monitor.record_metrics_from_llama_server(server_url="http://127.0.0.1:8090")
+monitor.record_metrics_from_llama_server(server_url="http://127.0.0.1:8080")
 print("Server metrics recorded.")
 ```
 

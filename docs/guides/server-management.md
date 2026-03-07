@@ -17,7 +17,7 @@ The server management layer provides:
 ```python
 from llamatelemetry.server import ServerManager
 
-# Default -- targets http://127.0.0.1:8090
+# Default -- targets http://127.0.0.1:8080
 manager = ServerManager()
 
 # Custom URL
@@ -52,7 +52,7 @@ If no binary is found and `auto_start=True` is passed to `load_model()`, the boo
 ```python
 manager.start_server(
     model_path="/path/to/model.gguf",
-    port=8090,
+    port=8080,
     host="127.0.0.1",
     gpu_layers=99,
     ctx_size=2048,
@@ -70,7 +70,7 @@ manager.start_server(
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `model_path` | `str` | required | Path to the GGUF model file |
-| `port` | `int` | `8090` | HTTP port for the server |
+| `port` | `int` | `8080` | HTTP port for the server |
 | `host` | `str` | `"127.0.0.1"` | Bind address |
 | `gpu_layers` | `int` | `99` | Number of layers offloaded to GPU |
 | `ctx_size` | `int` | `2048` | Context window size in tokens |
@@ -237,7 +237,7 @@ The `ServerManager` spawns `llama-server` as a subprocess. Key behaviors:
 
 - **stdout/stderr** are captured and available for debugging
 - The server process is terminated when the manager is garbage-collected
-- If the Python process exits unexpectedly, the server may remain running -- use `lsof -i :8090` to find and kill orphaned processes
+- If the Python process exits unexpectedly, the server may remain running -- use `lsof -i :8080` to find and kill orphaned processes
 - On Kaggle notebooks, processes are automatically cleaned up when the session ends
 
 ## Best Practices
@@ -255,7 +255,7 @@ The `ServerManager` spawns `llama-server` as a subprocess. Key behaviors:
 from llamatelemetry.server import ServerManager
 from llamatelemetry.api.multigpu import MultiGPUConfig, SplitMode
 
-manager = ServerManager(server_url="http://127.0.0.1:8090")
+manager = ServerManager(server_url="http://127.0.0.1:8080")
 
 # Find or bootstrap the binary
 server_path = manager.find_llama_server()

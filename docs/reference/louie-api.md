@@ -24,7 +24,7 @@ visualization for GPU-accelerated knowledge graph exploration.
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `model` | `Optional[str]` | `None` | Model name for local inference (default: `"gemma-3-1b-Q4_K_M"`) |
-| `server_url` | `Optional[str]` | `None` | llama-server URL (default: `"http://localhost:8090"`) |
+| `server_url` | `Optional[str]` | `None` | llama-server URL (default: `"http://localhost:8080"`) |
 | `use_local_llm` | `bool` | `True` | Use local llamatelemetry inference vs. server mode |
 | `graphistry_username` | `Optional[str]` | `None` | Graphistry Hub username for visualization |
 | `graphistry_password` | `Optional[str]` | `None` | Graphistry Hub password |

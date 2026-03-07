@@ -42,7 +42,7 @@ multi_gpu = MultiGPUConfig(
     flash_attention=True,
 )
 
-manager = ServerManager(server_url="http://127.0.0.1:8090")
+manager = ServerManager(server_url="http://127.0.0.1:8080")
 manager.start_server(
     model_path="/path/to/llama-3.1-8b-Q4_K_M.gguf",
     multi_gpu_config=multi_gpu,
@@ -51,7 +51,7 @@ manager.start_server(
 manager.wait_ready(timeout=120)
 
 # Now use InferenceEngine or LlamaCppClient
-engine = lt.InferenceEngine(server_url="http://127.0.0.1:8090")
+engine = lt.InferenceEngine(server_url="http://127.0.0.1:8080")
 result = engine.infer("Explain tensor parallelism.", max_tokens=128)
 print(result.text)
 
@@ -150,7 +150,7 @@ tracer, meter = setup_telemetry(
 )
 
 # Create instrumented client
-client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8090")
+client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Start performance monitor
 monitor = PerformanceMonitor()
@@ -283,7 +283,7 @@ Generate embeddings and find similar texts:
 from llamatelemetry.api import LlamaCppClient
 import numpy as np
 
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Corpus of documents
 documents = [
@@ -396,7 +396,7 @@ Use the client with the familiar OpenAI-style interface:
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Multi-turn conversation
 messages = [

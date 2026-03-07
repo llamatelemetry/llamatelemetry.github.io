@@ -14,9 +14,9 @@ The client layer provides:
 - **Server management** endpoints (health, metrics, slots, models, LoRA)
 
 !!! warning "Port Mismatch"
-    `LlamaCppClient` defaults to port **8090**, while `ServerManager` and `InferenceEngine` default to port **8090**. When using `LlamaCppClient` with a llamatelemetry-managed server, always specify the correct port:
+    `LlamaCppClient` defaults to port **8080**, while `ServerManager` and `InferenceEngine` default to port **8080**. When using `LlamaCppClient` with a llamatelemetry-managed server, always specify the correct port:
     ```python
-    client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+    client = LlamaCppClient(base_url="http://127.0.0.1:8080")
     ```
 
 ## Creating a Client
@@ -24,11 +24,11 @@ The client layer provides:
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-# Default -- port 8090 (llama.cpp default)
+# Default -- port 8080 (llama.cpp default)
 client = LlamaCppClient()
 
 # Matching llamatelemetry ServerManager port
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 ```
 
 ## Chat Completions
@@ -232,7 +232,7 @@ For telemetry-enabled workflows, use `InstrumentedLlamaCppClient` which automati
 ```python
 from llamatelemetry.telemetry import InstrumentedLlamaCppClient
 
-client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8090")
+client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Note: uses chat_completions (plural) -- different from LlamaCppClient
 response = client.chat_completions({
@@ -250,7 +250,7 @@ response = client.chat_completions({
 from llamatelemetry.api import LlamaCppClient
 import requests
 
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 
 try:
     response = client.chat_completion(
@@ -270,7 +270,7 @@ except Exception as e:
 
 | Feature | `LlamaCppClient` | `InstrumentedLlamaCppClient` |
 |---------|-------------------|------------------------------|
-| Default port | 8090 | 8090 (via telemetry setup) |
+| Default port | 8080 | 8080 (via telemetry setup) |
 | Chat method | `chat_completion()` (singular) | `chat_completions()` (plural) |
 | OpenAI-style | `chat.completions.create()` | Not available |
 | Telemetry | No | Auto-creates OTel spans |
@@ -280,7 +280,7 @@ except Exception as e:
 
 ## Best Practices
 
-- **Always specify the port** when using `LlamaCppClient` with a llamatelemetry-managed server (port 8090).
+- **Always specify the port** when using `LlamaCppClient` with a llamatelemetry-managed server (port 8080).
 - **Use the OpenAI-style API** (`chat.completions.create()`) for code that may later switch to OpenAI or other providers.
 - **Use `InstrumentedLlamaCppClient`** when you need automatic telemetry span creation.
 - **Check health before sending requests** in production code to handle server restarts gracefully.
@@ -291,8 +291,8 @@ except Exception as e:
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-# Connect to a running llama-server (started by ServerManager on port 8090)
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+# Connect to a running llama-server (started by ServerManager on port 8080)
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Check health
 health = client.health.check()

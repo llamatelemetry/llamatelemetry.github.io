@@ -134,7 +134,7 @@ cfg = KagglePipelineConfig(
     enable_graphistry=False,
     enable_llama_metrics=True,
 )
-ctx = setup_otel_and_client('http://127.0.0.1:8090', cfg)
+ctx = setup_otel_and_client('http://127.0.0.1:8080', cfg)
 client = ctx['client']
 print(f"Pipeline keys: {list(ctx.keys())}")
 ```

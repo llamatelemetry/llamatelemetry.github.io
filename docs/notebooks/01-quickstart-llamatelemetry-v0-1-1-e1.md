@@ -150,7 +150,7 @@ print(json.dumps(metrics, indent=2, default=str))
 ## 7) Alternative: OpenAI-compatible LlamaCppClient
 
 If you prefer the OpenAI chat-completions style API, use `LlamaCppClient` directly.
-Note: `ServerManager` defaults to port **8090**, so pass the matching URL.
+Note: `ServerManager` defaults to port **8080**, so pass the matching URL.
 
 ### Cell 15 (Code)
 
@@ -160,7 +160,7 @@ Note: `ServerManager` defaults to port **8090**, so pass the matching URL.
 ```python
 from llamatelemetry.api import LlamaCppClient
 
-client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 
 # Convenience method (singular: chat_completion)
 resp = client.chat_completion(

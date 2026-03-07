@@ -58,7 +58,7 @@ from llamatelemetry.telemetry import setup_grafana_otlp
 tracer, meter = setup_grafana_otlp(
     service_name="llamatelemetry",
     service_version="0.1.1",
-    llama_server_url="http://127.0.0.1:8090",
+    llama_server_url="http://127.0.0.1:8080",
     enable_llama_metrics=True,
 )
 print(f"Tracer: {tracer}")
@@ -81,7 +81,7 @@ which accepts a payload dict.
 ```python
 from llamatelemetry.telemetry.client import InstrumentedLlamaCppClient
 
-client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8090")
+client = InstrumentedLlamaCppClient(base_url="http://127.0.0.1:8080")
 ```
 
 ### Cell 8 (Markdown)

@@ -15,12 +15,12 @@ The engine wraps three subsystems into a single coherent interface:
 ```python
 import llamatelemetry as lt
 
-# Minimal -- defaults to http://127.0.0.1:8090, no telemetry
+# Minimal -- defaults to http://127.0.0.1:8080, no telemetry
 engine = lt.InferenceEngine()
 
 # Explicit configuration
 engine = lt.InferenceEngine(
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
     enable_telemetry=False,
     telemetry_config=None,
 )
@@ -30,12 +30,12 @@ engine = lt.InferenceEngine(
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `server_url` | `str` | `"http://127.0.0.1:8090"` | Base URL of the llama-server instance |
+| `server_url` | `str` | `"http://127.0.0.1:8080"` | Base URL of the llama-server instance |
 | `enable_telemetry` | `bool` | `False` | Initialize OpenTelemetry tracing and metrics |
 | `telemetry_config` | `dict` or `None` | `None` | Configuration dict passed to `setup_telemetry()` |
 
 !!! note "Port Convention"
-    `InferenceEngine` and `ServerManager` both default to port **8090**. The lower-level `LlamaCppClient` defaults to **8090**. When combining them manually, ensure ports match.
+    `InferenceEngine` and `ServerManager` both default to port **8080**. The lower-level `LlamaCppClient` defaults to **8080**. When combining them manually, ensure ports match.
 
 ## Using as a Context Manager
 
@@ -44,7 +44,7 @@ The recommended pattern is to use the engine as a context manager, which guarant
 ```python
 import llamatelemetry as lt
 
-with lt.InferenceEngine(server_url="http://127.0.0.1:8090") as engine:
+with lt.InferenceEngine(server_url="http://127.0.0.1:8080") as engine:
     engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
     result = engine.infer("What is CUDA?", max_tokens=128)
     print(result.text)
@@ -246,7 +246,7 @@ Enable OpenTelemetry instrumentation to export traces and metrics to Grafana Clo
 import llamatelemetry as lt
 
 engine = lt.InferenceEngine(
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
     enable_telemetry=True,
     telemetry_config={
         "service_name": "my-llm-service",
@@ -301,7 +301,7 @@ with lt.InferenceEngine() as engine:
 import llamatelemetry as lt
 
 with lt.InferenceEngine(
-    server_url="http://127.0.0.1:8090",
+    server_url="http://127.0.0.1:8080",
     enable_telemetry=True,
     telemetry_config={
         "service_name": "demo",

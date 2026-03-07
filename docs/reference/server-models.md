@@ -14,12 +14,12 @@ Manages the llama-server process lifecycle: locating the binary, starting with a
 
 ```python
 class ServerManager:
-    def __init__(self, server_url: str = "http://127.0.0.1:8090")
+    def __init__(self, server_url: str = "http://127.0.0.1:8080")
 ```
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `server_url` | `str` | `"http://127.0.0.1:8090"` | URL where the server will be accessible |
+| `server_url` | `str` | `"http://127.0.0.1:8080"` | URL where the server will be accessible |
 
 ### Context Manager
 
@@ -58,7 +58,7 @@ Locate the llama-server executable. Searches in this order:
 def start_server(
     self,
     model_path: str,
-    port: int = 8090,
+    port: int = 8080,
     host: str = "127.0.0.1",
     gpu_layers: int = 99,
     ctx_size: int = 2048,
@@ -83,7 +83,7 @@ Start llama-server with the specified configuration.
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `model_path` | `str` | *required* | Path to GGUF model file |
-| `port` | `int` | `8090` | Server port |
+| `port` | `int` | `8080` | Server port |
 | `host` | `str` | `"127.0.0.1"` | Server bind address |
 | `gpu_layers` | `int` | `99` | Number of layers to offload to GPU |
 | `ctx_size` | `int` | `2048` | Context window size |
@@ -110,7 +110,7 @@ Start llama-server with the specified configuration.
 **Raises:** `FileNotFoundError`, `RuntimeError`
 
 ```python
-manager = ServerManager(server_url="http://127.0.0.1:8090")
+manager = ServerManager(server_url="http://127.0.0.1:8080")
 manager.start_server(
     model_path="/models/gemma-3-1b-it-Q4_K_M.gguf",
     gpu_layers=99,

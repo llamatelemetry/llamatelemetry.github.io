@@ -224,7 +224,7 @@ from llamatelemetry.telemetry.metrics import GpuMetricsCollector
 collector = GpuMetricsCollector(
     meter=meter,                    # opentelemetry.metrics.Meter
     gpu_indices=[0, 1],             # Which GPUs to monitor
-    llama_metrics_url=None,         # e.g. "http://127.0.0.1:8090/metrics"
+    llama_metrics_url=None,         # e.g. "http://127.0.0.1:8080/metrics"
     poll_interval_s=15,
 )
 collector.start()
@@ -261,7 +261,7 @@ from llamatelemetry.telemetry.monitor import PerformanceMonitor
 
 with PerformanceMonitor(
     gpu_indices=[0, 1],
-    llama_metrics_url="http://127.0.0.1:8090/metrics",
+    llama_metrics_url="http://127.0.0.1:8080/metrics",
     poll_interval_s=5,
 ) as monitor:
     # run inference
@@ -295,7 +295,7 @@ An auto-instrumented wrapper around `LlamaCppClient` that automatically creates 
 from llamatelemetry.telemetry import InstrumentedLLMClient
 
 client = InstrumentedLLMClient(
-    base_url="http://127.0.0.1:8090",
+    base_url="http://127.0.0.1:8080",
     model_name="gemma-3-4b-Q4_K_M.gguf",
     tracer=tracer,      # opentelemetry.trace.Tracer
     meter=meter,        # opentelemetry.metrics.Meter
@@ -318,7 +318,7 @@ LlamaCppClientInstrumentor().instrument()
 
 # All subsequent LlamaCppClient calls are now traced automatically
 from llamatelemetry.api import LlamaCppClient
-client = LlamaCppClient("http://127.0.0.1:8090")
+client = LlamaCppClient("http://127.0.0.1:8080")
 resp = client.chat.create(messages=[...])  # Span created automatically
 
 LlamaCppClientInstrumentor().uninstrument()  # Remove instrumentation

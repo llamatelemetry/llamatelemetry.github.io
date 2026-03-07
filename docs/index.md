@@ -69,7 +69,7 @@ load_grafana_otlp_env_from_kaggle()
 manager = start_server_from_preset("/kaggle/input/model/model.gguf", ServerPreset.KAGGLE_DUAL_T4)
 
 cfg = KagglePipelineConfig(enable_llama_metrics=True)
-ctx = setup_otel_and_client("http://127.0.0.1:8090", cfg)
+ctx = setup_otel_and_client("http://127.0.0.1:8080", cfg)
 client = ctx["client"]
 
 resp = client.chat_completions({

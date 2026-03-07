@@ -14,7 +14,7 @@ The `LlamaCppClient` provides a comprehensive, type-safe Python client for all l
 class LlamaCppClient:
     def __init__(
         self,
-        base_url: str = "http://127.0.0.1:8090",
+        base_url: str = "http://127.0.0.1:8080",
         api_key: Optional[str] = None,
         timeout: float = 600.0,
         verify_ssl: bool = True,
@@ -23,7 +23,7 @@ class LlamaCppClient:
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `base_url` | `str` | `"http://127.0.0.1:8090"` | Server base URL |
+| `base_url` | `str` | `"http://127.0.0.1:8080"` | Server base URL |
 | `api_key` | `Optional[str]` | `None` | API key for Bearer authentication |
 | `timeout` | `float` | `600.0` | Request timeout in seconds |
 | `verify_ssl` | `bool` | `True` | Verify SSL certificates |
@@ -41,7 +41,7 @@ class LlamaCppClient:
 ```python
 from llamatelemetry.api.client import LlamaCppClient
 
-client = LlamaCppClient("http://localhost:8090")
+client = LlamaCppClient("http://localhost:8080")
 ```
 
 ---

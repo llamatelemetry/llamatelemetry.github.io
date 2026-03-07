@@ -139,7 +139,7 @@ Uncomment to use real embeddings from a running llama-server.
 ```python
 # from llamatelemetry.api import LlamaCppClient
 #
-# client = LlamaCppClient(base_url="http://127.0.0.1:8090")
+# client = LlamaCppClient(base_url="http://127.0.0.1:8080")
 # texts = ["CUDA", "GPU", "tensor", "matrix", "network", "layer"]
 # real_embeddings = client.embed(texts)
 #
