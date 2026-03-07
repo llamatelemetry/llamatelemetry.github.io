@@ -12,6 +12,9 @@ Thumbs.db
 .idea/
 .vscode/
 
+# Local notes
+GEMINI.md
+
 # Python
 __pycache__/
 *.pyc
