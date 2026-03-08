@@ -25,3 +25,4 @@ venv/
 
 # Node (if using any build tools)
 node_modules/
+notes/

@@ -106,7 +106,11 @@ The complete workflow has five steps:
 5. **Run** inference and inspect the `InferResult`.
 
 ```python
+#Step 1: Install llamatelemetry
+!pip install -q --no-cache-dir --force-reinstall git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
+
 import llamatelemetry as lt
+print("\nllamatelemetry version:", llamatelemetry.__version__)
 
 # Step 2: verify CUDA
 cuda_info = lt.detect_cuda()
