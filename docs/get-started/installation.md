@@ -49,7 +49,7 @@ extension from source.
 ### GPU compatibility
 
 The SDK is production-tested on **Tesla T4** (SM 7.5, 16 GB VRAM). Any NVIDIA
-GPU with compute capability >= 6.1 should work, but the model registry and
+GPU with compute capability >= 7.0 should work, but the model registry and
 auto-configuration presets are tuned for T4-class hardware. Typical compatible
 GPUs include:
 

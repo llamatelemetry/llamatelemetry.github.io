@@ -273,16 +273,16 @@ the engine's server URL.
 ### Chat completions
 
 ```python
-response = client.chat_completions(
+response = client.chat_completion(
     messages=[
-        {"role": "system", "content": "You are a helpful AI assistant."},
-        {"role": "user", "content": "What are CUDA graphs and why do they help?"},
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": "What is CUDA?"},
     ],
-    max_tokens=256,
+    max_tokens=200,
     temperature=0.7,
 )
 
-print(response["choices"][0]["message"]["content"])
+print(response.choices[0].message.content)
 ```
 
 ### Text completions
