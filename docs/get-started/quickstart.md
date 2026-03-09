@@ -447,7 +447,7 @@ with lt.InferenceEngine(enable_telemetry=False) as engine:
         "Define quantization in one sentence.",
         "What is a KV cache?",
     ]
-    for r in engine.batch_generate(prompts, max_tokens=64):
+    for r in engine.batch_infer(prompts, max_tokens=64):
         print(f"\n{r.text}")
 
     # 6. Metrics
