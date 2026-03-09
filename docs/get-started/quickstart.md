@@ -235,18 +235,18 @@ Process multiple prompts in a single call:
 
 ```python
 prompts = [
-    "Explain tensor cores in one sentence.",
-    "What is the GGUF file format?",
-    "How does KV cache work in transformers?",
-    "Describe continuous batching for LLM serving.",
+  "Explain tensor cores in one sentence.",
+  "What is the GGUF file format?",
+  "How does KV cache work in transformers?",
+  "Describe continuous batching for LLM serving.",
 ]
 
-results = engine.batch_generate(prompts, max_tokens=96)
+results = engine.batch_infer(prompts, max_tokens=96)
 
 for i, r in enumerate(results):
-    print(f"\n--- Prompt {i + 1} ---")
-    print(f"Text: {r.text}")
-    print(f"Tokens/sec: {r.tokens_per_sec:.1f}")
+  print(f"\n--- Prompt {i + 1} ---")
+  print(f"Text: {r.text}")
+  print(f"Tokens/sec: {r.tokens_per_sec:.1f}")
 ```
 
 Batch inference processes prompts sequentially through the server but provides a
@@ -270,7 +270,7 @@ Note that `LlamaCppClient` defaults to port 8080, while `InferenceEngine` and
 `ServerManager` default to port 8080. When using the client with an engine, pass
 the engine's server URL.
 
-### Chat completions
+### Chat completion
 
 ```python
 response = client.chat_completion(
@@ -285,26 +285,26 @@ response = client.chat_completion(
 print(response.choices[0].message.content)
 ```
 
-### Text completions
+### Text completion
 
 ```python
-response = client.completions(
-    prompt="The three main benefits of model quantization are:",
-    max_tokens=128,
-    temperature=0.5,
+response = client.complete(
+  prompt="The three main benefits of model quantization are:",
+  n_predict=128,
+  temperature=0.5,
 )
 
-print(response["choices"][0]["text"])
+print(response.choices[0].text)
 ```
 
 ### Embeddings
 
 ```python
-response = client.embeddings(
-    input="GPU-accelerated inference with llamatelemetry",
+response = client.embeddings.create(
+  input="GPU-accelerated inference with llamatelemetry",
 )
 
-embedding = response["data"][0]["embedding"]
+embedding = response.data[0].embedding
 print(f"Embedding dimension: {len(embedding)}")
 print(f"First 5 values: {embedding[:5]}")
 ```
@@ -313,10 +313,11 @@ print(f"First 5 values: {embedding[:5]}")
 
 ```python
 tokens = client.tokenize("Hello, llamatelemetry!")
-print(f"Token count: {len(tokens)}")
-print(f"Token IDs: {tokens}")
 
-text = client.detokenize(tokens)
+print(f"Token count: {len(tokens.tokens)}")
+print(f"Token IDs: {tokens.tokens}")
+
+text = client.detokenize(tokens.tokens)
 print(f"Detokenized: {text}")
 ```
 
@@ -334,21 +335,17 @@ print(f"Server status: {health}")
 For token-by-token output, use the streaming mode through the client:
 
 ```python
-from llamatelemetry.api import LlamaCppClient
-
-client = LlamaCppClient(base_url="http://127.0.0.1:8080")
-
 # Streaming chat completions
-for chunk in client.chat_completions(
-    messages=[{"role": "user", "content": "Explain flash attention step by step."}],
-    max_tokens=256,
-    stream=True,
+for chunk in client.chat.completions.create(
+  messages=[{"role": "user", "content": "Explain flash attention step by step."}],
+  max_tokens=256,
+  stream=True,
 ):
-    delta = chunk["choices"][0].get("delta", {})
-    content = delta.get("content", "")
-    print(content, end="", flush=True)
+  delta = chunk["choices"][0].get("delta", {})
+  content = delta.get("content", "")
+  print(content, end="", flush=True)
 
-print()  # newline after streaming completes
+print()
 ```
 
 Streaming requires the `sseclient-py` package:
@@ -387,7 +384,7 @@ engine = lt.InferenceEngine(
     },
 )
 
-engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
+
 result = engine.infer("What is OpenTelemetry?", max_tokens=64)
 
 # Traces and metrics are now being collected
