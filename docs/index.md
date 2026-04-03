@@ -1,3 +1,8 @@
+---
+title: llamatelemetry Documentation
+description: CUDA-first documentation for llamatelemetry, covering llama.cpp and GGUF inference, OpenTelemetry observability, Kaggle workflows, multi-GPU guides, API reference, and notebooks.
+---
+
 # llamatelemetry Documentation
 
 **CUDA-first Python SDK for local LLM inference and observability with llama.cpp**

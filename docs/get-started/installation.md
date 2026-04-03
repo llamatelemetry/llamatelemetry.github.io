@@ -1,3 +1,8 @@
+---
+title: Install llamatelemetry
+description: Installation guide for llamatelemetry on Linux with Python 3.11+, CUDA 12.x, optional extras, GPU verification, environment variables, and troubleshooting.
+---
+
 # Installation
 
 This guide covers every path to a working llamatelemetry installation: the

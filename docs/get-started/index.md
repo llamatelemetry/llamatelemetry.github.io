@@ -1,3 +1,8 @@
+---
+title: Get Started with llamatelemetry
+description: Install llamatelemetry, verify CUDA, run local GGUF inference with llama.cpp, and follow the fastest path into Kaggle and observability workflows.
+---
+
 # Get Started
 
 Welcome to **llamatelemetry**, a CUDA-first OpenTelemetry SDK for LLM inference
