@@ -111,15 +111,31 @@ the preset configuration, loads the specified model, and starts the server in
 one call:
 
 ```python
-from llamatelemetry.kaggle import start_server_from_preset, ServerPreset
+from llamatelemetry.models import load_model_smart
+from llamatelemetry.kaggle.presets import get_preset_config, ServerPreset
+from llamatelemetry.server import ServerManager
 
-server = start_server_from_preset(
-    preset=ServerPreset.KAGGLE_DUAL_T4,
-    model_name="gemma-3-1b-Q4_K_M",
-)
+model_path = load_model_smart("gemma-3-1b-Q4_K_M", interactive=True)
 
+cfg = get_preset_config(ServerPreset.KAGGLE_DUAL_T4)
+
+# Force server_url to match the preset port
+server_url = f"http://{cfg.host}:{cfg.port}"
+server = ServerManager(server_url=server_url)
+
+kwargs = cfg.to_server_kwargs()
+kwargs.update({
+  "model_path": str(model_path),
+  "embeddings": True,
+  "pooling": "mean",
+})
+
+server.start_server(**kwargs)
+server.wait_ready(timeout=180)
+
+info = server.get_server_info()
 print(f"Server running at: {server.server_url}")
-print(f"Server PID:        {server.pid}")
+print(f"Server PID:        {info.get('process_id')}")
 ```
 
 The dual-T4 preset splits model layers across both GPUs, effectively doubling
