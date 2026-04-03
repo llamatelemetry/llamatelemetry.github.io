@@ -1,3 +1,8 @@
+---
+title: llamatelemetry Notebook Hub
+description: Browse 18 llamatelemetry notebooks covering GGUF inference, Kaggle T4 workflows, graph analytics, quantization, telemetry, and production observability.
+---
+
 # Notebook Hub (18 Notebooks)
 
 The `llamatelemetry` project includes 18 notebooks covering inference, optimization, graph analytics, and production observability.

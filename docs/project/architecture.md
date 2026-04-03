@@ -1,3 +1,8 @@
+---
+title: llamatelemetry Architecture Overview
+description: Architecture overview of llamatelemetry, including the Python SDK modules, llama-server integration, C++ and CUDA extension layer, and observability pipeline.
+---
+
 # Architecture Overview
 
 `llamatelemetry` is a CUDA-first Python SDK that orchestrates `llama-server` for GGUF
