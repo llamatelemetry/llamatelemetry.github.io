@@ -40,3 +40,20 @@ Generated output is written to `site/`.
 ## Deployment
 
 Pushes to `main` or `master` trigger the docs workflow that builds the site and deploys to GitHub Pages.
+
+## Google Search Console scripts
+
+Repo-local helper scripts live in `scripts/`:
+
+- `scripts/gsc-auth.sh` - initialize Google ADC auth with `gcloud`
+- `scripts/gsc-list-sites.sh` - list Search Console properties
+- `scripts/gsc-submit-sitemap.sh` - submit `https://llamatelemetry.github.io/sitemap.xml`
+- `scripts/gsc-list-sitemaps.sh` - list submitted sitemaps
+- `scripts/gsc-inspect-url.sh <url>` - inspect a single URL
+- `scripts/gsc-inspect-defaults.sh` - inspect the homepage, get-started, and reference
+- `scripts/gsc-run-all.sh` - run the full flow end to end
+
+They use either:
+
+- `ACCESS_TOKEN` if already exported, or
+- `gcloud auth application-default print-access-token`
