@@ -1,3 +1,8 @@
+---
+title: Telemetry and Observability Guide
+description: Configure OpenTelemetry tracing, OTLP export, GPU metrics, and observability workflows for llamatelemetry across Grafana, Jaeger, Prometheus, and Graphistry.
+---
+
 # Telemetry and Observability
 
 llamatelemetry integrates OpenTelemetry tracing and metrics with GPU-aware resource attributes, providing full observability for LLM inference workloads. It exports to any OTLP-compatible backend (Grafana Cloud, Jaeger, Prometheus) and optionally visualizes traces as graphs in Graphistry.

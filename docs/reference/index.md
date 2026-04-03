@@ -1,3 +1,8 @@
+---
+title: llamatelemetry API Reference
+description: Complete API reference for the llamatelemetry Python SDK, including inference, llama.cpp clients, GGUF tooling, telemetry, Kaggle helpers, NCCL, CUDA, and notebooks.
+---
+
 # API Reference
 
 Complete API reference for the `llamatelemetry` Python SDK v0.1.1. This section documents

@@ -1,3 +1,8 @@
+---
+title: llamatelemetry Quickstart
+description: Quickstart tutorial for running llamatelemetry with local GGUF models, CUDA verification, single and batch inference, streaming, and llama.cpp client usage.
+---
+
 # Quickstart
 
 This tutorial walks through every core feature of llamatelemetry from first
