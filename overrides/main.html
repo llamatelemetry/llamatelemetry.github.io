@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  {% set page_description = config.site_description %}
+  {% if page and page.meta and page.meta.description %}
+    {% set page_description = page.meta.description %}
+  {% endif %}
+  {% set page_title = config.site_name %}
+  {% if page and page.title %}
+    {% set page_title = page.title ~ " | " ~ config.site_name %}
+  {% endif %}
+  {% set canonical_url = config.site_url %}
+  {% if page and page.canonical_url %}
+    {% set canonical_url = page.canonical_url %}
+  {% endif %}
+  {% set social_image = config.site_url ~ config.extra.social_image %}
+
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <meta name="keywords" content="{{ config.extra.seo_keywords }}">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="{{ config.site_name }}">
+  <meta property="og:title" content="{{ page_title }}">
+  <meta property="og:description" content="{{ page_description }}">
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:image" content="{{ social_image }}">
+  <meta property="og:image:type" content="image/svg+xml">
+  <meta property="og:image:alt" content="{{ config.extra.social_image_alt }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page_title }}">
+  <meta name="twitter:description" content="{{ page_description }}">
+  <meta name="twitter:image" content="{{ social_image }}">
+  <meta name="twitter:image:alt" content="{{ config.extra.social_image_alt }}">
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "{{ config.site_name }}",
+      "url": "{{ config.site_url }}",
+      "description": "{{ config.site_description }}",
+      "publisher": {
+        "@type": "Organization",
+        "name": "llamatelemetry",
+        "url": "https://github.com/llamatelemetry",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ social_image }}"
+        }
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "{{ page_title }}",
+      "url": "{{ canonical_url }}",
+      "description": "{{ page_description }}",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "{{ config.site_name }}",
+        "url": "{{ config.site_url }}"
+      },
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "llamatelemetry",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Linux",
+        "url": "https://github.com/llamatelemetry/llamatelemetry"
+      }
+    }
+  </script>
+{% endblock %}

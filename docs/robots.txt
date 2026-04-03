@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://llamatelemetry.github.io/sitemap.xml
