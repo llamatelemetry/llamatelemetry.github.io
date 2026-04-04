@@ -1,409 +1,242 @@
 ---
 title: Install llamatelemetry
-description: Installation guide for llamatelemetry on Linux with Python 3.11+, CUDA 12.x, optional extras, GPU verification, environment variables, and troubleshooting.
+description: Practical installation guide for llamatelemetry v0.1.1, including the recommended GitHub install path, optional extras, Kaggle notes, and post-install verification.
 ---
 
 # Installation
 
-This guide covers every path to a working llamatelemetry installation: the
-recommended one-line pip install, development installs from source, CUDA
-prerequisites, GPU verification, optional dependency groups, environment
-variables, container setups, and troubleshooting.
+This page focuses on the installation path that best matches the current
+project state of `llamatelemetry` v0.1.1.
 
----
+The SDK is a **Linux-first Python package** that bootstraps a bundled
+`llama-server` workflow and is currently most aligned with **Kaggle dual-T4
+notebooks** and nearby Linux environments. Some modules are broader than that,
+but the package itself should be documented as **best supported on Kaggle and
+Linux with NVIDIA GPUs**, not as a fully general-purpose cross-platform runtime.
+
+## What to expect from the current package
+
+Today, the package is strongest in these scenarios:
+
+- Python 3.11+
+- Linux
+- NVIDIA GPU workflows
+- local GGUF inference through `llama-server`
+- Kaggle-focused helpers for dual Tesla T4 sessions
+- optional OpenTelemetry-based observability
+
+Treat Windows, macOS, and CPU-only use as experimental unless you validate your
+exact workflow yourself.
 
 ## Prerequisites
 
-Before installing llamatelemetry, ensure your system meets the following
-requirements.
-
 ### Python
 
-llamatelemetry requires **Python >= 3.11**. Check your version:
+Use **Python 3.11 or newer**.
 
 ```bash
-python3 --version   # must be 3.11 or later
+python3 --version
 ```
 
-If your system Python is older, install 3.11+ via your package manager or
-[pyenv](https://github.com/pyenv/pyenv):
+A clean virtual environment is recommended:
 
 ```bash
-# Ubuntu/Debian
-sudo apt update && sudo apt install python3.11 python3.11-venv python3.11-dev
-
-# With pyenv
-pyenv install 3.11.7
-pyenv local 3.11.7
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
 ```
 
-### CUDA toolkit and drivers
+### GPU and CUDA expectations
 
-llamatelemetry targets **CUDA 12.x**. The NVIDIA driver must be version 525 or
-later. Verify both:
+For the core CUDA-oriented workflow, you should have:
+
+- an NVIDIA GPU
+- working NVIDIA drivers
+- a Linux environment where `nvidia-smi` works
 
 ```bash
-nvidia-smi          # shows driver version and CUDA version
-nvcc --version      # shows CUDA compiler version (if toolkit installed)
+nvidia-smi
 ```
 
-You need at least the NVIDIA driver and CUDA runtime libraries. The full CUDA
-toolkit (with `nvcc`) is only required if you plan to build the C++/CUDA
-extension from source.
+You do **not** always need to compile CUDA code yourself. The package is built
+around a bootstrap flow that tries to make the bundled runtime available for
+you. Full CUDA toolchain setup is mainly relevant when you want to build pieces
+from source or debug the lower-level C++/CUDA side.
 
-### GPU compatibility
+## Recommended install
 
-The SDK is production-tested on **Tesla T4** (SM 7.5, 16 GB VRAM). Any NVIDIA
-GPU with compute capability >= 7.0 should work, but the model registry and
-auto-configuration presets are tuned for T4-class hardware. Typical compatible
-GPUs include:
-
-| GPU | Compute Capability | VRAM |
-|---|---|---|
-| Tesla T4 | 7.5 | 16 GB |
-| RTX 2080 Ti | 7.5 | 11 GB |
-| RTX 3090 | 8.6 | 24 GB |
-| RTX 4090 | 8.9 | 24 GB |
-| A100 | 8.0 | 40/80 GB |
-| L4 | 8.9 | 24 GB |
-
-### Operating system
-
-Linux is the primary supported platform (Ubuntu 20.04+ recommended). The SDK is
-tested on Kaggle notebook images (Debian-based) and standard Ubuntu
-installations. macOS and Windows are not officially supported but may work for
-CPU-only experimentation.
-
----
-
-## Install from GitHub (recommended)
-
-The simplest installation pulls the tagged v0.1.1 release directly from GitHub:
-
-```bash
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
-```
-
-For a completely clean install that avoids cached wheels:
+The most reliable documented path for the current project is installing directly
+from the GitHub repo tag:
 
 ```bash
 pip install --no-cache-dir --force-reinstall \
   git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
 ```
 
-This installs the core package and all required dependencies (`numpy`,
-`requests`, `huggingface_hub`, `tqdm`, `opentelemetry-api`, `opentelemetry-sdk`).
+That matches the package version exposed by the uploaded SDK snapshot.
 
-### Using a virtual environment
+## Optional extras
 
-It is strongly recommended to use a virtual environment to avoid dependency
-conflicts:
+The package defines a few extras that are useful when you want richer notebook
+or observability workflows.
 
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
-```
-
----
-
-## Install from source (development)
-
-Clone the repository and install in editable mode for development:
-
-```bash
-git clone https://github.com/llamatelemetry/llamatelemetry.git
-cd llamatelemetry
-git checkout v0.1.1   # or main for latest
-
-pip install -e ".[dev]"
-```
-
-The editable install (`-e`) allows you to modify source files without
-reinstalling. The `[dev]` extra includes testing and formatting tools (pytest,
-ruff, mypy).
-
-### Building the C++/CUDA extension
-
-The `llamatelemetry_cpp` pybind11 extension is built automatically by CMake
-during installation if the CUDA toolkit is available. To build it manually:
-
-```bash
-cd csrc
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make -j$(nproc)
-```
-
-The extension links against `cudart_static`, `cublas_static`, and
-`cublasLt_static`. If CMake cannot find CUDA, set `CUDA_TOOLKIT_ROOT_DIR`:
-
-```bash
-cmake .. -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12
-```
-
----
-
-## Optional dependency groups
-
-The `pyproject.toml` defines several extras for optional functionality. Install
-them individually or combine them:
-
-### Telemetry (OTLP exporters)
-
-Required for exporting traces and metrics to Grafana Cloud, Jaeger, or any
-OTLP-compatible backend:
+### Telemetry extras
 
 ```bash
 pip install "llamatelemetry[telemetry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
-This adds `opentelemetry-exporter-otlp-proto-http` and
-`opentelemetry-exporter-otlp-proto-grpc`.
+Use this when you want OTLP export or deeper OpenTelemetry workflows.
 
-### Graphistry and RAPIDS
-
-For graph visualization and GPU-accelerated graph analytics:
+### Graphistry extras
 
 ```bash
 pip install "llamatelemetry[graphistry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
-This adds `pygraphistry` and `pandas`.
+Use this when you want graph visualization helpers.
 
-### Jupyter
-
-For notebook widgets and interactive visualization:
+### Jupyter extras
 
 ```bash
 pip install "llamatelemetry[jupyter] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
-This adds `ipywidgets` and related display utilities.
+Use this for notebook-centric display helpers.
 
-### PyTorch and GPU monitoring
+### Common add-ons installed separately
 
-These are optional and installed separately since they have large footprints:
-
-```bash
-pip install torch pynvml    # for NCCL and GPU monitoring
-pip install sseclient-py    # for SSE streaming support
-pip install wandb           # for Weights & Biases logging
-```
-
-### All optional dependencies at once
+A few packages are referenced by the SDK but are best documented as separate
+installs:
 
 ```bash
-pip install "llamatelemetry[telemetry,graphistry,jupyter,dev] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 pip install torch pynvml sseclient-py wandb
 ```
 
----
+Install these only when your workflow actually needs them.
 
-## Verify installation
+## Kaggle install cell
 
-After installing, verify that the package loads and CUDA is visible:
+For Kaggle, keep the first cell simple:
+
+```python
+!pip -q install --no-cache-dir --force-reinstall \
+  git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
+```
+
+Then add only the extra packages you need for that notebook.
+
+## Development install
+
+If you are editing the SDK itself:
+
+```bash
+git clone https://github.com/llamatelemetry/llamatelemetry.git
+cd llamatelemetry
+git checkout v0.1.1
+pip install -e .
+```
+
+If you need the development toolchain too:
+
+```bash
+pip install -e ".[dev]"
+```
+
+## Post-install verification
+
+Start with a minimal import and version check:
 
 ```python
 import llamatelemetry as lt
 
-# Check version
-print(f"llamatelemetry version: {lt.__version__}")  # expected: 0.1.1
-
-# Check CUDA
-cuda_info = lt.detect_cuda()
-print(f"CUDA available: {cuda_info['available']}")
-print(f"CUDA version:   {cuda_info['version']}")
-
-for gpu in cuda_info["gpus"]:
-    print(f"  GPU: {gpu['name']}")
-    print(f"    Memory:             {gpu['memory']} MB")
-    print(f"    Driver version:     {gpu['driver_version']}")
-    print(f"    Compute capability: {gpu['compute_capability']}")
+print(lt.__version__)
 ```
 
-Expected output on a Tesla T4 system:
-
-```
-llamatelemetry version: 0.1.1
-CUDA available: True
-CUDA version:   12.2
-  GPU: Tesla T4
-    Memory:             15360 MB
-    Driver version:     535.104.05
-    Compute capability: 7.5
-```
-
-### Verify environment setup
-
-The `setup_environment()` function configures paths for the llama-server binary
-and CUDA libraries:
+Then verify the environment the package can see:
 
 ```python
-from llamatelemetry import setup_environment
+import llamatelemetry as lt
 
-setup_environment()
+cuda_info = lt.detect_cuda()
+print(cuda_info)
+```
 
+And confirm the bundled `llama-server` path if bootstrap succeeded:
+
+```python
 import os
-print(f"LLAMA_CPP_DIR:        {os.environ.get('LLAMA_CPP_DIR', 'not set')}")
-print(f"LD_LIBRARY_PATH:      {os.environ.get('LD_LIBRARY_PATH', 'not set')}")
-print(f"CUDA_VISIBLE_DEVICES: {os.environ.get('CUDA_VISIBLE_DEVICES', 'not set')}")
+
+print(os.environ.get("LLAMA_SERVER_PATH"))
 ```
 
----
+## First smoke test
 
-## Runtime bootstrap behavior
+A practical first smoke test is to create an engine and inspect it before you
+load any model:
 
-On first import, llamatelemetry automatically downloads runtime binaries and
-shared libraries (approximately 961 MB). This is a one-time operation. The files
-are stored inside the package directory:
+```python
+import llamatelemetry as lt
 
-| Directory | Contents | Approximate Size |
-|---|---|---|
-| `llamatelemetry/binaries/` | `llama-server` executable | ~200 MB |
-| `llamatelemetry/lib/` | Shared libraries (CUDA, cuBLAS) | ~700 MB |
-| `llamatelemetry/models/` | Downloaded GGUF model files | Varies per model |
-
-The bootstrap runs automatically and shows a progress bar via `tqdm`. If the
-download is interrupted, it resumes on the next import. To skip the bootstrap
-(for example, if you have a pre-built llama.cpp), set the `LLAMA_SERVER_PATH`
-environment variable to point to your binary.
-
----
-
-## Environment variables
-
-llamatelemetry reads the following environment variables. None are required for
-basic usage.
-
-| Variable | Purpose | Default |
-|---|---|---|
-| `LLAMA_SERVER_PATH` | Absolute path to a `llama-server` binary; skips bootstrap | Auto-discovered |
-| `LLAMA_CPP_DIR` | Path to a llama.cpp build directory | Set by `setup_environment()` |
-| `LD_LIBRARY_PATH` | Library search path; SDK prepends its own `lib/` directory | System default |
-| `CUDA_VISIBLE_DEVICES` | Comma-separated GPU indices to expose | All GPUs visible |
-| `HF_TOKEN` | Hugging Face token for gated model downloads | None |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | OTLP collector endpoint for telemetry export | None |
-| `OTEL_EXPORTER_OTLP_HEADERS` | Authentication headers for OTLP export | None |
-| `WANDB_API_KEY` | Weights & Biases API key for logging integration | None |
-
----
-
-## Docker and container setup
-
-For containerized deployments, use an NVIDIA CUDA base image and install
-llamatelemetry on top:
-
-```dockerfile
-FROM nvidia/cuda:12.2.2-runtime-ubuntu22.04
-
-# Install Python 3.11
-RUN apt-get update && apt-get install -y \
-    python3.11 python3.11-venv python3.11-dev python3-pip \
-    && rm -rf /var/lib/apt/lists/*
-
-# Create venv and install
-RUN python3.11 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
-
-RUN pip install --no-cache-dir \
-    git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1
-
-# Pre-run bootstrap to cache binaries in the image
-RUN python -c "import llamatelemetry"
-
-WORKDIR /workspace
-CMD ["python3.11"]
+engine = lt.InferenceEngine(server_url="http://127.0.0.1:8080")
+print(engine.server_url)
 ```
 
-Build and run with GPU access:
+Once that works, continue with the [Quickstart](quickstart.md) or the
+[Kaggle Quickstart](kaggle-quickstart.md).
 
-```bash
-docker build -t llamatelemetry:v0.1.1 .
-docker run --gpus all -it llamatelemetry:v0.1.1
-```
+## Known documentation boundaries
 
-The `--gpus all` flag requires the
-[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
-to be installed on the host.
+To keep this page honest, these points are important:
 
----
+- the SDK snapshot clearly targets **Kaggle dual-T4 workflows** as its most
+  opinionated runtime path
+- the package contains broader modules for Graphistry, telemetry, NCCL, and
+  notebook tooling, but those should be treated as **capabilities in progress**
+  rather than universally validated production surfaces
+- when docs say a feature is available, that should mean the module and API are
+  present in the package; when docs say a feature is validated, that should mean
+  you have actually exercised it in your published notebooks or release process
 
 ## Troubleshooting
 
-### `ModuleNotFoundError: No module named 'llamatelemetry'`
+### Import succeeds but bootstrap is incomplete
 
-Ensure you are using the correct Python interpreter. If you installed in a
-virtual environment, activate it first:
+If import works but runtime pieces are missing, check:
 
-```bash
-source .venv/bin/activate
-python -c "import llamatelemetry; print(llamatelemetry.__version__)"
+```python
+import os
+print(os.environ.get("LLAMA_SERVER_PATH"))
 ```
 
-### `detect_cuda()` returns `available: False`
+If that value is empty, re-run the install in a clean environment and confirm
+that the machine has the GPU/runtime layout expected by the package.
 
-- Verify `nvidia-smi` runs successfully from the command line.
-- Ensure `CUDA_VISIBLE_DEVICES` is not set to an empty string.
-- Check that the NVIDIA driver is version 525 or later.
-- In Docker, confirm the container was launched with `--gpus all`.
+### `detect_cuda()` reports no GPU
 
-### Bootstrap download fails or stalls
+That usually means one of these:
 
-- Check your network connection and firewall rules.
-- If behind a corporate proxy, set `HTTP_PROXY` and `HTTPS_PROXY`.
-- To retry, simply re-import the package. The download resumes from where it
-  stopped.
-- To skip bootstrap entirely, build llama.cpp from source and set
-  `LLAMA_SERVER_PATH`.
+- no NVIDIA GPU is attached
+- drivers are not available in the current session
+- you are not running in the Kaggle or Linux GPU environment the package expects
 
-### `ImportError` for optional dependencies
+### OpenTelemetry imports fail
 
-Optional modules gracefully degrade if their dependencies are not installed. If
-you see an `ImportError` when using a specific feature, install the relevant
-extras:
+Install the telemetry extra:
 
 ```bash
-# For telemetry features
-pip install opentelemetry-exporter-otlp-proto-http
-
-# For graphistry features
-pip install pygraphistry pandas
-
-# For GPU monitoring
-pip install pynvml
-
-# For streaming
-pip install sseclient-py
+pip install "llamatelemetry[telemetry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
-### CMake cannot find CUDA when building from source
+### Graphistry imports fail
 
-Set the CUDA path explicitly:
+Install the graphistry extra:
 
 ```bash
-export CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12
-export PATH=$CUDA_TOOLKIT_ROOT_DIR/bin:$PATH
+pip install "llamatelemetry[graphistry] @ git+https://github.com/llamatelemetry/llamatelemetry.git@v0.1.1"
 ```
 
-Then rebuild with `pip install -e .`
+### Kaggle notebook drift
 
-### Permission errors on `llamatelemetry/binaries/`
-
-The bootstrap writes executables to the package directory. If installed
-system-wide, the user may lack write permissions. Solutions:
-
-- Install in a virtual environment (recommended).
-- Set `LLAMA_SERVER_PATH` to a user-writable location.
-- Run the initial import with appropriate permissions.
-
----
-
-## Next steps
-
-- [Quickstart](quickstart.md) -- load a model and run your first inference.
-- [Kaggle Quickstart](kaggle-quickstart.md) -- optimized setup for Kaggle T4
-  notebooks.
-- [Server Management](../guides/server-management.md) -- advanced server
-  configuration and lifecycle control.
+In Kaggle, a restart after installation is sometimes the cleanest fix when a
+notebook keeps references to an older package state.

@@ -1,110 +1,64 @@
 ---
 title: llamatelemetry Quickstart
-description: Quickstart tutorial for running llamatelemetry with local GGUF models, CUDA verification, single and batch inference, streaming, and llama.cpp client usage.
+description: Minimal quickstart for loading a GGUF model with llamatelemetry, starting llama-server automatically, running inference, and inspecting basic metrics.
 ---
 
 # Quickstart
 
-This tutorial walks through every core feature of llamatelemetry from first
-import to cleanup. By the end, you will have verified your GPU, loaded a model,
-run single and batch inference, streamed tokens, used the low-level client API
-for chat completions and embeddings, and inspected server metrics.
+This quickstart keeps to the **most reliable path in the current SDK**:
 
-All code blocks are complete and copy-pasteable. They assume you have already
-installed the SDK (see [Installation](installation.md)).
+1. import the package
+2. verify CUDA visibility
+3. create an `InferenceEngine`
+4. load a GGUF model
+5. run inference
+6. inspect basic metrics
 
----
+For Kaggle-specific setup, use the separate [Kaggle Quickstart](kaggle-quickstart.md).
 
-## 1. Import and verify CUDA
-
-Start by confirming that the SDK is installed and your GPU is visible:
+## 1. Import and inspect the environment
 
 ```python
 import llamatelemetry as lt
 
-# detect_cuda() probes the NVIDIA driver and returns GPU metadata
-cuda_info = lt.detect_cuda()
-
-print(f"CUDA available: {cuda_info['available']}")
-print(f"CUDA version:   {cuda_info['version']}")
-
-for gpu in cuda_info["gpus"]:
-    print(f"  {gpu['name']} | {gpu['memory']} MB | "
-          f"SM {gpu['compute_capability']} | "
-          f"Driver {gpu['driver_version']}")
+print("version:", lt.__version__)
+print("server path:", lt.get_llama_cpp_cuda_path())
+print("cuda info:", lt.detect_cuda())
 ```
 
-If `available` is `False`, see the
-[troubleshooting section](installation.md#troubleshooting) in the installation
-guide.
+The important thing here is not matching some exact printed format. The goal is
+simply to confirm that the package imports, sees your runtime, and can find the
+`llama-server` path it expects to use.
 
-Optionally, call `setup_environment()` to configure `LLAMA_CPP_DIR`,
-`LD_LIBRARY_PATH`, and `CUDA_VISIBLE_DEVICES`:
-
-```python
-lt.setup_environment()
-```
-
----
-
-## 2. Create an InferenceEngine
-
-The `InferenceEngine` is the primary high-level API. It manages the llama-server
-lifecycle and exposes inference methods:
+## 2. Create an inference engine
 
 ```python
+import llamatelemetry as lt
+
 engine = lt.InferenceEngine(
-    server_url="http://127.0.0.1:8080",  # default server address
-    enable_telemetry=False,               # disable OTEL for now
+    server_url="http://127.0.0.1:8080",
+    enable_telemetry=False,
 )
 ```
 
-The `server_url` parameter sets the address the engine uses to communicate with
-the llama-server process. Port 8080 is the default. To enable OpenTelemetry
-tracing and metrics, set `enable_telemetry=True` and provide a
-`telemetry_config` dictionary (covered in the
-[Telemetry Guide](../guides/telemetry-observability.md)).
-
-You can also use `InferenceEngine` as a context manager for automatic cleanup:
-
-```python
-with lt.InferenceEngine(enable_telemetry=False) as engine:
-    engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
-    result = engine.infer("Hello, world!")
-    print(result.text)
-# Server is automatically stopped when the context exits
-```
-
----
+`InferenceEngine` is the highest-level API in the current package.
 
 ## 3. Load a model
 
-### From the built-in model registry
+The SDK supports three practical model-loading patterns.
 
-llamatelemetry includes a curated registry of 22+ GGUF models. Use a registry
-name to download and load automatically:
+### Option A: built-in registry name
 
 ```python
 engine.load_model(
-    "gemma-3-1b-Q4_K_M",   # registry name
-    auto_start=True,         # start llama-server after loading
-    auto_configure=True,     # auto-set gpu_layers, ctx_size based on GPU
-    gpu_layers=None,         # None = auto-detect from VRAM
-    ctx_size=None,           # None = auto-detect
-    n_parallel=1,            # number of parallel request slots
-    verbose=True,            # print loading progress
+    "gemma-3-1b-Q4_K_M",
+    auto_start=True,
+    auto_configure=True,
+    verbose=True,
 )
 ```
 
-The `auto_configure=True` option inspects your GPU's VRAM and compute
-capability to set appropriate values for `gpu_layers` and `ctx_size`. For a
-Tesla T4 with 16 GB VRAM, a 1B Q4 model will offload all layers to GPU with a
-large context window.
-
-### From a Hugging Face repository
-
-Specify a `repo:file` string to download a specific GGUF file from any
-Hugging Face repository:
+### Option B: Hugging Face repo plus file
 
 ```python
 engine.load_model(
@@ -113,367 +67,130 @@ engine.load_model(
 )
 ```
 
-If the repository is gated, set the `HF_TOKEN` environment variable before
-loading.
-
-### From a local file path
-
-Point directly to a GGUF file on disk:
+### Option C: local GGUF file
 
 ```python
 engine.load_model(
-    "/path/to/my-model-Q4_K_M.gguf",
+    "/path/to/model.gguf",
     auto_start=True,
-    gpu_layers=99,    # offload all layers to GPU
+    gpu_layers=99,
     ctx_size=4096,
 )
 ```
 
-### Controlling downloads
+The safest documentation stance is this: use small or moderate GGUF models
+first, confirm your runtime is stable, then move to larger models.
 
-The `interactive_download` parameter (default `True`) prompts for confirmation
-before downloading large files. Set it to `False` for non-interactive
-environments:
-
-```python
-engine.load_model(
-    "gemma-3-1b-Q4_K_M",
-    auto_start=True,
-    interactive_download=False,
-    silent=True,       # suppress all output
-)
-```
-
-The `report_suitability` parameter prints a summary of how well the model fits
-your GPU's VRAM:
-
-```python
-engine.load_model("gemma-3-1b-Q4_K_M", report_suitability=True)
-```
-
----
-
-## 4. Run inference
-
-### Single prompt
-
-The `infer()` method sends a completion request to the running llama-server and
-returns an `InferResult`:
+## 4. Run one inference request
 
 ```python
 result = engine.infer(
-    prompt="Explain what CUDA cores are in two sentences.",
-    max_tokens=128,      # maximum tokens to generate
-    temperature=0.7,     # sampling temperature
-    top_p=0.9,           # nucleus sampling threshold
-    top_k=40,            # top-k sampling
-    seed=0,              # 0 = random seed
-    stop_sequences=None, # optional list of stop strings
-)
-```
-
-The `generate()` method is an alias for `infer()` with the same signature:
-
-```python
-result = engine.generate("What is llama.cpp?", max_tokens=64)
-```
-
-### Inspecting InferResult
-
-The returned `InferResult` object contains everything you need:
-
-```python
-print(f"Success:          {result.success}")
-print(f"Generated text:   {result.text}")
-print(f"Tokens generated: {result.tokens_generated}")
-print(f"Latency:          {result.latency_ms:.1f} ms")
-print(f"Throughput:       {result.tokens_per_sec:.1f} tokens/sec")
-
-if not result.success:
-    print(f"Error: {result.error_message}")
-```
-
-| Field | Type | Description |
-|---|---|---|
-| `success` | `bool` | Whether the request completed without error |
-| `text` | `str` | The generated text |
-| `tokens_generated` | `int` | Number of tokens in the response |
-| `latency_ms` | `float` | End-to-end request latency in milliseconds |
-| `tokens_per_sec` | `float` | Generation throughput |
-| `error_message` | `str` or `None` | Error details if `success` is `False` |
-
-### Controlling generation
-
-Adjust sampling parameters to control output quality and diversity:
-
-```python
-# Deterministic output (greedy decoding)
-result = engine.infer(
-    "List three benefits of quantization.",
-    max_tokens=256,
-    temperature=0.0,
-    top_k=1,
-)
-
-# Creative output
-result = engine.infer(
-    "Write a short poem about GPU computing.",
-    max_tokens=200,
-    temperature=1.2,
-    top_p=0.95,
-    top_k=100,
-)
-
-# Stop at specific sequences
-result = engine.infer(
-    "Q: What is GGUF?\nA:",
+    prompt="Explain what GGUF is in two sentences.",
     max_tokens=128,
-    stop_sequences=["\nQ:", "\n\n"],
+    temperature=0.7,
+    top_p=0.9,
+    top_k=40,
 )
+
+print("success:", result.success)
+print("text:", result.text)
+print("tokens:", result.tokens_generated)
+print("latency_ms:", result.latency_ms)
+print("tokens_per_sec:", result.tokens_per_sec)
 ```
 
----
+The `InferResult` object is one of the strongest parts of the current public API
+because it gives you the generated text plus simple performance signals in one
+place.
 
-## 5. Batch inference
+## 5. Run batch inference
 
-Process multiple prompts in a single call:
+The current SDK exposes `batch_infer()`.
 
 ```python
 prompts = [
-  "Explain tensor cores in one sentence.",
-  "What is the GGUF file format?",
-  "How does KV cache work in transformers?",
-  "Describe continuous batching for LLM serving.",
+    "Define CUDA in one sentence.",
+    "Define quantization in one sentence.",
+    "Define observability in one sentence.",
 ]
 
-results = engine.batch_infer(prompts, max_tokens=96)
+results = engine.batch_infer(prompts, max_tokens=64)
 
 for i, r in enumerate(results):
-  print(f"\n--- Prompt {i + 1} ---")
-  print(f"Text: {r.text}")
-  print(f"Tokens/sec: {r.tokens_per_sec:.1f}")
+    print("---", i)
+    print("success:", r.success)
+    print("text:", r.text)
 ```
 
-Batch inference processes prompts sequentially through the server but provides a
-convenient single-call API. For true concurrent serving, increase the
-`n_parallel` parameter when loading the model.
-
----
-
-## 6. Using the LlamaCppClient directly
-
-For full control over the llama-server REST API, use `LlamaCppClient`. This
-exposes the OpenAI-compatible endpoints as well as native llama.cpp endpoints:
-
-```python
-from llamatelemetry.api import LlamaCppClient
-
-client = LlamaCppClient(base_url="http://127.0.0.1:8080")
-```
-
-Note that `LlamaCppClient` defaults to port 8080, while `InferenceEngine` and
-`ServerManager` default to port 8080. When using the client with an engine, pass
-the engine's server URL.
-
-### Chat completion
-
-```python
-response = client.chat_completion(
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "What is CUDA?"},
-    ],
-    max_tokens=200,
-    temperature=0.7,
-)
-
-print(response.choices[0].message.content)
-```
-
-### Text completion
-
-```python
-response = client.complete(
-  prompt="The three main benefits of model quantization are:",
-  n_predict=128,
-  temperature=0.5,
-)
-
-print(response.choices[0].text)
-```
-
-### Embeddings
-
-```python
-response = client.embeddings.create(
-  input="GPU-accelerated inference with llamatelemetry",
-)
-
-embedding = response.data[0].embedding
-print(f"Embedding dimension: {len(embedding)}")
-print(f"First 5 values: {embedding[:5]}")
-```
-
-### Tokenization
-
-```python
-tokens = client.tokenize("Hello, llamatelemetry!")
-
-print(f"Token count: {len(tokens.tokens)}")
-print(f"Token IDs: {tokens.tokens}")
-
-text = client.detokenize(tokens.tokens)
-print(f"Detokenized: {text}")
-```
-
-### Health check
-
-```python
-health = client.health()
-print(f"Server status: {health}")
-```
-
----
-
-## 7. Streaming responses
-
-For token-by-token output, use the streaming mode through the client:
-
-```python
-# Streaming chat completions
-for chunk in client.chat.completions.create(
-  messages=[{"role": "user", "content": "Explain flash attention step by step."}],
-  max_tokens=256,
-  stream=True,
-):
-  delta = chunk["choices"][0].get("delta", {})
-  content = delta.get("content", "")
-  print(content, end="", flush=True)
-
-print()
-```
-
-Streaming requires the `sseclient-py` package:
-
-```bash
-pip install sseclient-py
-```
-
----
-
-## 8. Server metrics
-
-Retrieve performance metrics from the running llama-server:
+## 6. Inspect engine metrics
 
 ```python
 metrics = engine.get_metrics()
 print(metrics)
 ```
 
-The metrics dictionary includes request counts, token throughput, queue depths,
-and latency percentiles. For persistent metric collection with OpenTelemetry, see
-the [Telemetry and Observability Guide](../guides/telemetry-observability.md).
+This is the simplest way to see the in-process aggregate counters the engine has
+collected during your session.
 
----
+## 7. Check server-side endpoints when needed
 
-## 9. Enable telemetry
-
-To add OpenTelemetry instrumentation to your inference calls:
+If the underlying `llama-server` is running, `ServerManager` and the lower-level
+client APIs can expose health and metrics endpoints. A simple pattern is:
 
 ```python
-engine = lt.InferenceEngine(
-    enable_telemetry=True,
-    telemetry_config={
-        "service_name": "my-llm-service",
-        "enable_llama_metrics": True,
-    },
-)
+from llamatelemetry import ServerManager
 
-
-result = engine.infer("What is OpenTelemetry?", max_tokens=64)
-
-# Traces and metrics are now being collected
-# Configure OTLP export via environment variables:
-#   OTEL_EXPORTER_OTLP_ENDPOINT=https://your-collector:4318
-#   OTEL_EXPORTER_OTLP_HEADERS=Authorization=Basic ...
+manager = ServerManager(server_url="http://127.0.0.1:8080")
+print(manager.check_server_health())
+print(manager.get_health())
 ```
 
-The telemetry module emits 45 `gen_ai.*` span attributes following the
-OpenTelemetry Gen AI semantic conventions and 5 metrics instruments for latency,
-throughput, and resource usage.
+You can also query the Prometheus-style metrics text:
 
----
+```python
+print(manager.get_metrics())
+```
 
-## 10. Cleanup
-
-When you are done, unload the model and stop the server:
+## 8. Clean up
 
 ```python
 engine.unload_model()
 ```
 
-If you used the context manager pattern (`with lt.InferenceEngine(...) as
-engine:`), cleanup happens automatically when the block exits.
-
----
-
-## Complete working example
-
-Here is a self-contained script that combines all the steps above:
+Or use a context manager:
 
 ```python
 import llamatelemetry as lt
 
-# 1. Check GPU
-cuda_info = lt.detect_cuda()
-assert cuda_info["available"], "No CUDA GPU found"
-print(f"GPU: {cuda_info['gpus'][0]['name']}")
-
-# 2. Set up environment
-lt.setup_environment()
-
-# 3. Create engine and load model
 with lt.InferenceEngine(enable_telemetry=False) as engine:
     engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
-
-    # 4. Single inference
-    result = engine.infer(
-        "What are the advantages of GGUF over GGML?",
-        max_tokens=128,
-        temperature=0.7,
-    )
-    print(f"\n{result.text}")
-    print(f"({result.tokens_generated} tokens, "
-          f"{result.tokens_per_sec:.1f} tok/s, "
-          f"{result.latency_ms:.0f} ms)")
-
-    # 5. Batch inference
-    prompts = [
-        "Define quantization in one sentence.",
-        "What is a KV cache?",
-    ]
-    for r in engine.batch_infer(prompts, max_tokens=64):
-        print(f"\n{r.text}")
-
-    # 6. Metrics
-    print(f"\nServer metrics: {engine.get_metrics()}")
-
-# Server stops automatically here
-print("Done.")
+    result = engine.infer("Hello from llamatelemetry.")
+    print(result.text)
 ```
 
----
+## A realistic first workflow
 
-## Next steps
+For a first successful run, this sequence is usually enough:
 
-- [Kaggle Quickstart](kaggle-quickstart.md) -- optimized workflow for Kaggle
-  T4 x2 notebooks.
-- [Model Management](../guides/model-management.md) -- registry details, VRAM
-  budgets, and the 22+ curated models.
-- [Server Management](../guides/server-management.md) -- port configuration,
-  health checks, multi-slot serving.
-- [Telemetry and Observability](../guides/telemetry-observability.md) --
-  OpenTelemetry setup, Grafana dashboards, Gen AI attributes.
-- [API Client Reference](../guides/api-client.md) -- full `LlamaCppClient` API
-  surface.
-- [Notebook Hub](../notebooks/index.md) -- 18 production-tested notebooks.
+```python
+import llamatelemetry as lt
+
+engine = lt.InferenceEngine(enable_telemetry=False)
+engine.load_model("gemma-3-1b-Q4_K_M", auto_start=True)
+result = engine.infer("What does this SDK do?", max_tokens=96)
+print(result.text)
+print(engine.get_metrics())
+engine.unload_model()
+```
+
+## What this page intentionally does not claim
+
+This page avoids a few claims that were too broad in the earlier docs:
+
+- it does not claim token streaming as a stable top-level `InferenceEngine` API
+  because the uploaded snapshot does not expose `stream_infer()` on that class
+- it does not claim every advanced integration is equally validated
+- it does not assume all local machines behave like Kaggle dual-T4 notebooks
+
+For telemetry-specific setup, continue to the
+[Telemetry and Observability Guide](../guides/telemetry-observability.md).
